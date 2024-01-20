@@ -1,0 +1,19 @@
+.App{
+    font-family: sans-serif;
+    text-align: center;
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+#root{
+    height: 100vh;
+}
+
+/*Sizing of map coontainer*/
+.leaflet-container{
+    height: 100vh;
+}

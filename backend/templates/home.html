@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculate Driving Distance</title>
+    <meta charset="utf-8" />
+    <script type='text/javascript' src='https://code.jquery.com/jquery-3.6.4.min.js'></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AqesDSP1QCJfuPJJ0PeaaRPGCFr2gou-EVTJEgM5_d_aNCw80OGn1BfVXAZRqvWk' async defer></script>
+    <style>
+        /* Your existing styles */
+        html, body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+        }
+
+        .directionsContainer {
+            width: 380px;
+            height: 100%;
+            float: right;
+        }
+
+        #myMap {
+            position: relative;
+            width: calc(100% - 380px);
+            height: 100%;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="directionsContainer">
+        <div id="directionsPanel"></div>
+        <div id="directionsItinerary"></div>
+        <div id="startLocationInfo">Start Location: </div>
+        <div id="endLocationInfo">End Location: </div>
+        <div id="drivingDistanceInfo">Driving Distance: </div>
+    </div>
+    <div id="myMap"></div>
+
+    <script type='text/javascript'>
+        var map;
+        var directionsManager;
+
+        function GetMap() {
+            map = new Microsoft.Maps.Map('#myMap', {});
+
+            // Load the directions module.
+            Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+                // Create an instance of the directions manager.
+                directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+
+                // Specify where to display the route instructions.
+                directionsManager.setRenderOptions({ itineraryContainer: '#directionsItinerary' });
+
+                // Specify the where to display the input panel
+                directionsManager.showInputPanel('directionsPanel');
+
+                // Add event handler for when directions are calculated.
+                Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', function (args) {
+                    // Get the driving distance from the last route summary.
+                    var distance = args.routeSummary[0].distance;
+                    updateDrivingDistanceInfo(distance);
+                });
+            });
+        }
+
+        function updateDrivingDistanceInfo(distance) {
+            var distanceDiv = document.getElementById('drivingDistanceInfo');
+            distanceDiv.innerHTML = 'Driving Distance: ' + distance.toFixed(2) + ' km';
+        }
+
+        // Call the GetMap function to initialize the map and directions
+        GetMap();
+    </script>
+</body>
+</html>

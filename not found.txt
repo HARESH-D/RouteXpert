@@ -1,0 +1,15 @@
+V46,"Therkku Theru, Tamil Nadu 625122"
+V69,"Alanganallur, Vadipatti, Madurai, Tamil Nadu, India"
+V172,Palaiyur patti
+V173,V.Puthupatti
+V177,Oththappatty
+V181,Kuruvithurai
+
+
+done:
+V1,"Kottampatty, Tamil Nadu 625103"
+V2,"Pallapatti, Tamil Nadu 625103"
+V3,"Manappacheri, Tamil Nadu 625103"
+V4,"Sekkipatty, Tamil Nadu 625101"
+V5,"Pattur, Tamil Nadu 625101"
+V6,"Melavalavu, Tamil Nadu 625105"

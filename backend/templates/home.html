@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Calculate Driving Distance</title>
+    <title></title>
     <meta charset="utf-8" />
     <script type='text/javascript' src='https://code.jquery.com/jquery-3.6.4.min.js'></script>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AqesDSP1QCJfuPJJ0PeaaRPGCFr2gou-EVTJEgM5_d_aNCw80OGn1BfVXAZRqvWk' async defer></script>
+    <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AqesDSP1QCJfuPJJ0PeaaRPGCFr2gou-EVTJEgM5_d_aNCw80OGn1BfVXAZRqvWk' async defer></script>
     <style>
-        /* Your existing styles */
         html, body {
             padding: 0;
             margin: 0;
@@ -16,12 +15,13 @@
         .directionsContainer {
             width: 380px;
             height: 100%;
+            /* overflow-y: auto; */
             float: right;
         }
 
         #myMap {
             position: relative;
-            width: calc(100% - 380px);
+            width: calc(100% - 480px);
             height: 100%;
             float: left;
         }
@@ -31,9 +31,10 @@
     <div class="directionsContainer">
         <div id="directionsPanel"></div>
         <div id="directionsItinerary"></div>
-        <div id="startLocationInfo">Start Location: </div>
-        <div id="endLocationInfo">End Location: </div>
-        <div id="drivingDistanceInfo">Driving Distance: </div>
+
+        <!-- New div elements to display start and end locations -->
+        <!-- <div id="startLocationInfo">Start Location: </div>
+        <div id="endLocationInfo">End Location: </div> -->
     </div>
     <div id="myMap"></div>
 
@@ -57,20 +58,46 @@
 
                 // Add event handler for when directions are calculated.
                 Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', function (args) {
-                    // Get the driving distance from the last route summary.
-                    var distance = args.routeSummary[0].distance;
-                    updateDrivingDistanceInfo(distance);
+                    // Get the start and end locations.
+                    var startLocation = directionsManager.getRouteResult().routes[0].routeLegs[0].actualStart.displayAddress;
+                    var endLocation = directionsManager.getRouteResult().routes[0].routeLegs[0].actualEnd.displayAddress;
+
+                    // Log the coordinates to the console.
+                    geocodeLocation(startLocation, 'Start');
+                    geocodeLocation(endLocation, 'End');
                 });
             });
         }
 
-        function updateDrivingDistanceInfo(distance) {
-            var distanceDiv = document.getElementById('drivingDistanceInfo');
-            distanceDiv.innerHTML = 'Driving Distance: ' + distance.toFixed(2) + ' km';
+        function updateLocationInfo(elementId, info) {
+            // Update the HTML with location information.
+            var infoDiv = document.getElementById(elementId);
+            infoDiv.innerHTML = info;
         }
 
-        // Call the GetMap function to initialize the map and directions
-        GetMap();
+        function geocodeLocation(location, type) {
+            // Use Bing Maps Location API to get the coordinates of the location.
+            var geocodeRequest = 'http://dev.virtualearth.net/REST/v1/Locations/' + encodeURIComponent(location) + '?key=AqesDSP1QCJfuPJJ0PeaaRPGCFr2gou-EVTJEgM5_d_aNCw80OGn1BfVXAZRqvWk';
+
+            // Make an AJAX request to the Bing Maps Location API.
+            $.ajax({
+                url: geocodeRequest,
+                dataType: 'json',
+                success: function (data) {
+                    // Extract coordinates from the response.
+                    var coordinates = data.resourceSets[0].resources[0].point.coordinates;
+
+                    // Use the obtained coordinates for further processing.
+                    console.log(type + ' Location - Latitude: ' + coordinates[0] + ', Longitude: ' + coordinates[1]);
+
+                    // Update the HTML with latitude and longitude information.
+                    updateLocationInfo(type.toLowerCase() + 'LocationInfo', type + ' Location - Latitude: ' + coordinates[0] + ', Longitude: ' + coordinates[1]);
+                },
+                error: function (error) {
+                    console.error('Error geocoding location: ' + error);
+                }
+            });
+        }
     </script>
 </body>
 </html>

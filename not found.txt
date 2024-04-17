@@ -13,3 +13,17 @@ V3,"Manappacheri, Tamil Nadu 625103"
 V4,"Sekkipatty, Tamil Nadu 625101"
 V5,"Pattur, Tamil Nadu 625101"
 V6,"Melavalavu, Tamil Nadu 625105"
+V7,"A.Vellalapatti, Tamil Nadu"
+
+
+
+office lap:
+V9,"pt,union ele,school,ulaipatti 625535, Soolappuram, Tamil Nadu 625535"
+V10,"Mallapuram, Tamil Nadu 625535"
+V11,"Soolappuram, Tamil Nadu 625535"
+V12,"Elumalai, Tamil Nadu 625535"
+V13,"Uthapuram, Tamil Nadu 625535"
+V14,"MDSPL4 E.KOTTAIPATTI PACCS, Ammapatti, E. (post) Peraiyur(TK) (DT), E. Kottaipatti, Tamil Nadu 625535"
+V15,Perumal patti
+V16,"Sindupatti, Tamil Nadu 625529"
+V17,"Eachampatti, Veppanuthu, Tamil Nadu 625529"

@@ -20,3 +20,7 @@ async def read_root(request: Request):
 async def transportation_planner(request: Request):
     return templates.TemplateResponse("transportation_planner.html", {"request": request})
 
+@app.get("/warehouse_config", response_class=HTMLResponse)
+async def transportation_planner(request: Request):
+    return templates.TemplateResponse("warehouse_config.html", {"request": request})
+

@@ -43,15 +43,18 @@ h6 {
 --------------------------------------------------------------*/
 #main {
   margin-top: 60px;
-  padding: 20px 30px;
+  padding: 10px 20px; /* Adjusted padding for smaller size */
+  font-size: 16px; /* Adjusted font size */
   transition: all 0.3s;
 }
 
 @media (max-width: 1199px) {
   #main {
-    padding: 20px;
+    padding: 10px; /* Adjusted padding for smaller size */
+    font-size: 14px; /* Adjusted font size */
   }
 }
+
 
 /*--------------------------------------------------------------
 # Page Title
@@ -305,7 +308,7 @@ h6 {
 
 /* Breadcrumbs */
 .breadcrumb {
-  font-size: 14px;
+  font-size: 10px;
   font-family: "Nunito", sans-serif;
   color: #899bbd;
   font-weight: 600;

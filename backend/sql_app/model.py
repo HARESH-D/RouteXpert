@@ -8,6 +8,9 @@ class Warehouse(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     warehouse_name = Column(String)
+    add_ln1 = Column(String)
+    add_ln2 = Column(String)
+    state = Column(String)
     
 
 

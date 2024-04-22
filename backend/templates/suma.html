@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>Dashboard</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href="../static/assets/img/favicon.png" rel="icon" />
+    <link
+      href="../static/assets/img/apple-touch-icon.png"
+      rel="apple-touch-icon"
+    />
+
+    <!-- Google Fonts -->
+
+    <!-- Add this style to make the modal appear as a popup -->
+    <style>
+      /* The Modal (background) */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+      }
+
+      /* Modal Content/Box */
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+      }
+
+      /* The Close Button */
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
+      <div class="d-flex align-items-center justify-content-between">
+        <a href="/" class="logo d-flex align-items-center">
+          <img src="../static/assets/img/logo.png" alt="" />
+          <span class="d-none d-lg-block">RoutExpert</span>
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+      </div>
+      <!-- End Logo -->
+    </header>
+    <!-- End Header -->
+
+    <main id="main" class="main">
+
+        <div class="pagetitle">
+          <h1>Warehouse</h1>
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">Warehouse Config</li>
+            </ol>
+          </nav>
+        </div><!-- End Page Title -->
+    
+        <section class="section dashboard">
+            <!-- <div class="container"> -->
+              <div class="row">
+                <!-- Action buttons -->
+                <div class="col-md-6">
+                  <div class="dropdown d-inline-block">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="configurationDropdown"
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-lightning-charge"></i> Action
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="configurationDropdown">
+                      <button type="button" class="btn btn-primary" id="openModal">Add Warehouse</button>
+
+                      <!-- Modal HTML -->
+                      <div id="warehouseModal" class="modal">
+                        <div class="modal-content">
+                          <span class="close">×</span>
+                          <form id="addWarehouseForm">
+                            <label for="warehouseName">Warehouse Name:</label>
+                            <input type="text" id="warehouseName" name="warehouse_name" required><br>
+                            <label for="addressLane1">Address Lane 1:</label>
+                            <input type="text" id="addressLane1" name="address_lane_1" required><br>
+                            <label for="addressLane2">Address Lane 2:</label>
+                            <input type="text" id="addressLane2" name="address_lane_2" required><br>
+                            <label for="state">State:</label>
+                            <input type="text" id="state" name="state" required><br>
+                            <button type="button" class="btn btn-success" id="saveBtn">Save</button>
+                          </form>
+                        </div>
+                      </div>
+                      <li><a class="dropdown-item" href="#"><i class="bi bi-plus"></i> Add</a></li>
+                      <li><a class="dropdown-item" href="#"><i class="bi bi-pencil"></i> Update</a></li>
+                      <li><a class="dropdown-item" href="#"><i class="bi bi-trash"></i> Delete</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            <!-- </div> -->
+        </section>
+    </main>
+  </body>
+
+  <!-- Add this script to handle the opening and closing of the modal -->
+  <script>
+    // Get the modal
+    var modal = document.getElementById("warehouseModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("openModal");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+</html>

@@ -2,6 +2,15 @@ from sqlalchemy import Column, Integer, String, Float
 from .database import Base
 
 
+class Warehouse(Base):
+
+    __tablename__ = "Warehouse"
+
+    id = Column(Integer, primary_key=True, index=True)
+    warehouse_name = Column(String)
+    
+
+
 class TransportationEquipment(Base):
     __tablename__ = "TransportationEquipment"
 

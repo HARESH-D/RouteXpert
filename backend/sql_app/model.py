@@ -7,10 +7,13 @@ class Warehouse(Base):
     __tablename__ = "Warehouse"
 
     id = Column(Integer, primary_key=True, index=True)
+    warehouse_user_name = Column(String)
     warehouse_name = Column(String)
-    add_ln1 = Column(String)
-    add_ln2 = Column(String)
+    address_lane_1 = Column(String)
+    address_lane_2 = Column(String)
+    city = Column(String)
     state = Column(String)
+    zip = Column(String)
     
 
 
@@ -40,11 +43,6 @@ class InventoryStatus(Base):
     invsts = Column(String)
     inv_desc = Column(String)
     inv_shortdesc = Column(String)
-
-
-
-
-
 
 
     

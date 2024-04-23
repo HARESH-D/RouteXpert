@@ -31,21 +31,29 @@ async def transportation_planner(request: Request):
 
 @app.post("/save_warehouse")
 async def save_warehouse(
+    warehouse_user_name: str = Form(...),
     warehouse_name: str = Form(...),
     address_lane_1: str = Form(...),
     address_lane_2: str = Form(...),
     state: str = Form(...),
+    city: str = Form(...),
+    zip: str = Form(...)
+
 ):
     # Process and save form data to the database
     # Insert form_data into the Warehouse table using SQLAlchemy or your ORM of choice
     
     new_warehouse = {
+        "warehouse_user_name": warehouse_user_name,
         "warehouse_name": warehouse_name,
         "address_lane_1": address_lane_1,
         "address_lane_2": address_lane_2,
+        "city": city,
         "state": state,
+        "zip": zip
     }
-    print(new_warehouse)
+    # print(new_warehouse)
+    print(warehouse_user_name, warehouse_name, address_lane_1, address_lane_2, state, city, zip)
     # db.add(new_warehouse)
     # db.commit()
     

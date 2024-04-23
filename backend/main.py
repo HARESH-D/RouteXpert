@@ -25,6 +25,10 @@ async def transportation_planner(request: Request):
 async def transportation_planner(request: Request):
     return templates.TemplateResponse("warehouse_config.html", {"request": request})
 
+@app.get("/add_warehouse", response_class=HTMLResponse)
+async def transportation_planner(request: Request):
+    return templates.TemplateResponse("add_warehouse.html", {"request": request})
+
 @app.post("/save_warehouse")
 async def save_warehouse(
     warehouse_name: str = Form(...),

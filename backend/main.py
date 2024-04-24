@@ -12,6 +12,7 @@ from sql_app import model
 model.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+db = SessionLocal()
 
 
 # Mount the static directory for serving the HTML file and static files (CSS, JS)
@@ -27,17 +28,38 @@ async def read_root(request: Request):
 async def transportation_planner(request: Request):
     return templates.TemplateResponse("transportation_planner.html", {"request": request})
 
+
 @app.get("/warehouse_config", response_class=HTMLResponse)
 async def transportation_planner(request: Request):
-    return templates.TemplateResponse("warehouse_config.html", {"request": request})
+    
+    warehouses = db.query(Warehouse).all()
+    warehouse_list = []
+    for warehouse in warehouses:
+        warehouse_data = {
+            "id": warehouse.id,
+            "warehouse_user_name": warehouse.warehouse_user_name,
+            "warehouse_name": warehouse.warehouse_name,
+            "address_lane_1": warehouse.address_lane_1,
+            "address_lane_2": warehouse.address_lane_2,
+            "state": warehouse.state,
+            "city": warehouse.city,
+            "zip": warehouse.zip,
+        }
+        warehouse_list.append(warehouse_data)
+
+    print(Warehouse)
+    return templates.TemplateResponse("warehouse_config.html", {"request": request, "warehouse": warehouse_list})
+
 
 @app.get("/add_warehouse", response_class=HTMLResponse)
 async def transportation_planner(request: Request):
     return templates.TemplateResponse("add_warehouse.html", {"request": request})
 
 
+
+
 def create_warehouse(data):
-    db = SessionLocal()
+    
     try:
         new_warehouse = Warehouse(**data)
         db.add(new_warehouse)
@@ -57,7 +79,7 @@ def create_warehouse(data):
             }
             warehouse_list.append(warehouse_data)
         print(warehouse_list)
-        return {"message": "Warehouse created successfully"}
+        return warehouse_list
     except Exception as e:
         db.rollback()
         return {"message": f"Error creating warehouse: {e}"}
@@ -65,7 +87,7 @@ def create_warehouse(data):
         db.close()
 
 
-def update_data(data, )
+# def update_data(data, )
 
 @app.post("/save_warehouse")
 async def save_warehouse(

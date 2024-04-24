@@ -55,7 +55,8 @@
 
     <!-- Template Main CSS File -->
     <link href="../static/assets/css/style.css" rel="stylesheet" />
-
+    
+    
 
   </head>
 
@@ -183,52 +184,47 @@
                     <ul class="dropdown-menu" aria-labelledby="configurationDropdown">
 
                       <li><a class="dropdown-item" href="add_warehouse"><i class="bi bi-plus"></i>Add</a></li>
-                      <li><a class="dropdown-item" href="#"><i class="bi bi-pencil"></i> Update</a></li>
+                      <li><a class="dropdown-item" href="update_Warehouse"><i class="bi bi-pencil"></i> Update</a></li>
                       <li><a class="dropdown-item" href="#"><i class="bi bi-trash"></i> Delete</a></li>
                     </ul>
                   </div>
-                  <button class="btn btn-success save-button">Save</button>
-                  <button class="btn btn-danger cancel-button">Cancel</button>
+                
                 </div>
               </div>
             </div>
         
             <!-- Table -->
             <div class="container-lg-10 mt-4">
-            <!-- <div class="container mt-4"> -->
                 <div class="card">
                     <div class="card-body">
        
-                      <table class="table datatable">
-                        <thead>
+                      <table class="table datatable table-bordered table-striped">
+                        <thead class="thead-dark">
                           <tr>
-                            <th>
-                              <b>N</b>ame
-                            </th>
-                            <th>Ext.</th>
-                            <th>City</th>
-                            <th data-type="date" data-format="YYYY/DD/MM">Start Date</th>
-                            <th>Completion</th>
+                            <th>Select</th>
+                              <th>Warehouse User Name</th>
+                              <th>Warehouse Name</th>
+                              <th>Address Lane 1</th>
+                              <th>Address Lane 2</th>
+                              <th>State</th>
+                              <th>City</th>
+                              <th>Zip</th>
                           </tr>
-                        </thead>
-                        <tbody>
-                                <tr>
-                                  <td>Quentin Salas</td>
-                                  <td>1339</td>
-                                  <td>Los Andes</td>
-                                  <td>2011/26/01</td>
-                                  <td>49%</td>
-                                </tr>
-                                <tr>
-                                  <td>Armand Suarez</td>
-                                  <td>6583</td>
-                                  <td>Funtua</td>
-                                  <td>1999/06/11</td>
-                                  <td>9%</td>
-                                </tr>
-                                
-                        
-                        </tbody>
+                      </thead>
+                      <tbody>
+                          {% for warehouse in warehouse %}
+                          <tr>
+                              <td><input type="checkbox" name="selectedWarehouse" value="{{ warehouse.id }}"></td>
+                              <td>{{ warehouse.warehouse_user_name }}</td>
+                              <td>{{ warehouse.warehouse_name }}</td>
+                              <td>{{ warehouse.address_lane_1 }}</td>
+                              <td>{{ warehouse.address_lane_2 }}</td>
+                              <td>{{ warehouse.state }}</td>
+                              <td>{{ warehouse.city }}</td>
+                              <td>{{ warehouse.zip }}</td>
+                          </tr>
+                          {% endfor %}
+                      </tbody>
                         
                       </table>
                 </div>
@@ -263,7 +259,7 @@
     <script src="../static/assets/vendor/simple-datatables/simple-datatables.js"></script>
     <script src="../static/assets/vendor/tinymce/tinymce.min.js"></script>
     <script src="../static/assets/vendor/php-email-form/validate.js"></script>
-
+    
     <!-- Template Main JS File -->
     <script src="../static/assets/js/main.js"></script>
   </body>

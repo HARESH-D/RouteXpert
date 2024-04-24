@@ -932,7 +932,7 @@ h6 {
 }
 
 .dashboard .recent-sales .table thead th {
-  border: 0;
+  border: 2;
 }
 
 .dashboard .recent-sales .dataTable-top {

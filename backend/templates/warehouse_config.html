@@ -168,7 +168,6 @@
           </nav>
         </div><!-- End Page Title -->
 
-        
     
         <section class="section dashboard">
             <!-- <div class="container"> -->
@@ -184,8 +183,8 @@
                     <ul class="dropdown-menu" aria-labelledby="configurationDropdown">
 
                       <li><a class="dropdown-item" href="add_warehouse"><i class="bi bi-plus"></i>Add</a></li>
-                      <li><a class="dropdown-item" href="update_Warehouse"><i class="bi bi-pencil"></i> Update</a></li>
-                      <li><a class="dropdown-item" href="#"><i class="bi bi-trash"></i> Delete</a></li>
+                      <li><a class="dropdown-item" href="update_warehouse" id="updateBtn"><i class="bi bi-pencil"></i> Update</a></li>
+                      <li><a class="dropdown-item" href="#" id="deleteBtn"><i class="bi bi-trash"></i> Delete</a></li>
                     </ul>
                   </div>
                 
@@ -195,51 +194,50 @@
         
             <!-- Table -->
             <div class="container-lg-10 mt-4">
-                <div class="card">
-                    <div class="card-body">
-       
-                      <table class="table datatable table-bordered table-striped">
-                        <thead class="thead-dark">
-                          <tr>
-                            <th>Select</th>
-                              <th>Warehouse User Name</th>
-                              <th>Warehouse Name</th>
-                              <th>Address Lane 1</th>
-                              <th>Address Lane 2</th>
-                              <th>State</th>
-                              <th>City</th>
-                              <th>Zip</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          {% for warehouse in warehouse %}
-                          <tr>
-                              <td><input type="checkbox" name="selectedWarehouse" value="{{ warehouse.id }}"></td>
-                              <td>{{ warehouse.warehouse_user_name }}</td>
-                              <td>{{ warehouse.warehouse_name }}</td>
-                              <td>{{ warehouse.address_lane_1 }}</td>
-                              <td>{{ warehouse.address_lane_2 }}</td>
-                              <td>{{ warehouse.state }}</td>
-                              <td>{{ warehouse.city }}</td>
-                              <td>{{ warehouse.zip }}</td>
-                          </tr>
-                          {% endfor %}
-                      </tbody>
-                        
-                      </table>
+              <div class="card">
+                <div class="card-body">
+                  <table class="table datatable table-bordered table-striped">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th>Select</th>
+                        <th>Warehouse User Name</th>
+                        <th>Warehouse Name</th>
+                        <th>Address Lane 1</th>
+                        <th>Address Lane 2</th>
+                        <th>State</th>
+                        <th>City</th>
+                        <th>Zip</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for warehouse in warehouse %}
+                      <tr>
+                        <td><input type="checkbox" name="selectedWarehouse" value="{{ warehouse.id }}"></td>
+                        <td class="warehouse-info" data-column="warehouse_user_name">{{ warehouse.warehouse_user_name }}</td>
+                        <td class="warehouse-info" data-column="warehouse_name">{{ warehouse.warehouse_name }}</td>
+                        <td class="warehouse-info" data-column="address_lane_1">{{ warehouse.address_lane_1 }}</td>
+                        <td class="warehouse-info" data-column="address_lane_2">{{ warehouse.address_lane_2 }}</td>
+                        <td class="warehouse-info" data-column="state">{{ warehouse.state }}</td>
+                        <td class="warehouse-info" data-column="city">{{ warehouse.city }}</td>
+                        <td class="warehouse-info" data-column="zip">{{ warehouse.zip }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
                 </div>
-      
               </div>
-
-
             </div>
-              </div>
-          </section>
 
-          
-          
-    
-        </main>
+            <!-- Pop-up Modal -->
+            <div id="warehouseModal" class="modal">
+              <div class="modal-content">
+                  <span class="close-modal">&times;</span>
+                  <div id="modalContent"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
     <!-- End #main -->
 
 
@@ -249,7 +247,61 @@
       ><i class="bi bi-arrow-up-short"></i
     ></a>
 
+
     <!-- Vendor JS Files -->
+
+<!-- Vendor JS Files -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const updateLink = document.querySelector('#updateBtn');
+    updateLink.addEventListener('click', function (event) {
+      event.preventDefault(); // Prevent the default action (following the link)
+
+      const selectedCheckboxes = document.querySelectorAll('input[name="selectedWarehouse"]:checked');
+      if (selectedCheckboxes.length === 0) {
+        alert('Please select at least one warehouse to update.');
+      } else if (selectedCheckboxes.length > 1) {
+        alert('You can update only one warehouse/row of data at a time.');
+      } else {
+        const selectedId = selectedCheckboxes[0].value;
+        const updateUrl = `/update_warehouse/id=${selectedId}`;
+        window.location.href = updateUrl; // Redirect to the update page with selected ID
+      }
+    });
+
+
+      const deleteLink = document.querySelector("#deleteBtn");
+      deleteLink.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent the default action (following the link)
+
+        const selectedCheckboxes = document.querySelectorAll('input[name="selectedWarehouse"]:checked');
+        if (selectedCheckboxes.length === 0) {
+          alert('Please select at least one warehouse to delete.');
+        } else if (selectedCheckboxes.length > 1) {
+          alert('You can delete only one warehouse/row of data at a time.');
+        } else {
+          const selectedId = selectedCheckboxes[0].value;
+          const deleteUrl = `/delete_warehouse/${selectedId}`;
+          fetch(deleteUrl, {
+            method: 'DELETE'
+          }).then(response => {
+            if (response.ok) {
+              alert('Warehouse deleted successfully.');
+              window.location.reload(); // Refresh page after deletion
+            } else {
+              alert('Error deleting warehouse.');
+            }
+          }).catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while deleting the warehouse.');
+          });
+        }
+      });
+
+
+  });
+</script>
+    
 
     <script src="../static/assets/vendor/apexcharts/apexcharts.min.js"></script>
     <script src="../static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -253,6 +253,7 @@
 <!-- Vendor JS Files -->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+
     const updateLink = document.querySelector('#updateBtn');
     updateLink.addEventListener('click', function (event) {
       event.preventDefault(); // Prevent the default action (following the link)
@@ -264,7 +265,7 @@
         alert('You can update only one warehouse/row of data at a time.');
       } else {
         const selectedId = selectedCheckboxes[0].value;
-        const updateUrl = `/update_warehouse/id=${selectedId}`;
+        const updateUrl = `/update_warehouse/${selectedId}`;
         window.location.href = updateUrl; // Redirect to the update page with selected ID
       }
     });

@@ -21,8 +21,12 @@ class TransportationEquipment(Base):
     __tablename__ = "TransportationEquipment"
 
     id = Column(Integer, primary_key=True, index=True)
-    equip_type = Column(String)
-    equip_desc = Column(String)
+    equipment_number = Column(String)
+    equipment_type = Column(String)
+    equipment_license_number = Column(String)
+    driver_name = Column(String)
+    driver_license_number = Column(String)
+    equipment_description = Column(String)
     
 
     

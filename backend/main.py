@@ -1,20 +1,29 @@
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
+from sqlalchemy.orm import Session
 import httpx
 from typing import List
 from fastapi.encoders import jsonable_encoder
 from sql_app.database import SessionLocal, engine
-from sql_app.model import Warehouse
+from sql_app.model import Warehouse, TransportationEquipment
 from sql_app import model
 from pydantic import BaseModel
+
+
 # from .sql_app.model import Warehouse
 
 model.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 db = SessionLocal()
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 id_global = None
 
@@ -27,6 +36,7 @@ templates = Jinja2Templates(directory="templates")
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
+
 
 @app.get("/transportation_planner", response_class=HTMLResponse)
 async def transportation_planner(request: Request):
@@ -82,7 +92,8 @@ async def update_warehouse(request: Request, id: str):
         warehouse_list.append(warehouse_data)
     print(warehouse_list)
 
-    warehouse = db.query(Warehouse).filter(Warehouse.id == id).first()
+    warehouse = db.query(Warehouse).filter(Warehouse.id == id_global).first()
+    print("Warehouse",warehouse)
     warehouse_list = []
 
     warehouse_data = {
@@ -185,8 +196,6 @@ def update_warehouse_data(data, id):
         db.close()
 
 
-
-# def update_data(data, )
 @app.put("/save_warehouse")
 async def save_warehouse(
     warehouse_user_name: str = Form(...),
@@ -218,7 +227,6 @@ async def save_warehouse(
     return {"message": "Warehouse data updated successfully"}
 
 
-
 @app.post("/save_warehouse")
 async def save_warehouse(
     warehouse_user_name: str = Form(...),
@@ -245,7 +253,6 @@ async def save_warehouse(
     result = create_warehouse(new_warehouse)
     # print(result)
     return {"message": "Warehouse data saved successfully"}
-
 
 
 @app.post("/update_warehouse_data")
@@ -275,3 +282,99 @@ async def update_warehouse(
     print("update warehouse")
     # print(result)
     return {"message": "Warehouse data saved successfully"}
+
+
+
+@app.get("/trans_equip_config",response_class=HTMLResponse)
+async def trans_equip_config(request: Request):
+
+    equipment_list = []
+    db = SessionLocal()
+    # # Retrieve equipment data from the database
+    equipment_records = db.query(TransportationEquipment).all()
+
+    
+    
+    for equipment in equipment_records:
+        equipment_data = {
+            "id": equipment.id,
+            "equipment_number": equipment.equipment_number,
+            "equipment_type": equipment.equipment_type,
+            "equipment_license_number": equipment.equipment_license_number,
+            "driver_name": equipment.driver_name,
+            "driver_license_number": equipment.driver_license_number,
+            "equipment_description": equipment.equipment_description,
+        }
+        equipment_list.append(equipment_data)
+
+    print(equipment_list)
+
+    return templates.TemplateResponse("trans_equip_config.html", {"request": request, "equipment": equipment_list})
+
+@app.get("/add_transport", response_class=HTMLResponse)
+async def add_transport_equipment(request: Request):
+    return templates.TemplateResponse("add_transport.html", {"request": request})
+
+# @app.get("/update_transport_equipment/{id}", response_class=HTMLResponse)
+# async def update_transport_equipment(request: Request, id: int, db: Session = Depends(get_db)):
+#     equipment = crud.get_equipment(db, id)
+#     return templates.TemplateResponse("update_transport_equipment.html", {"request": request, "equipment": equipment})
+
+# @app.delete("/delete_transport_equipment/{id}")
+# async def delete_transport_equipment(id: int, db: Session = Depends(get_db)):
+#     deleted = crud.delete_equipment(db, id)
+#     return {"message": "Equipment deleted successfully" if deleted else "Equipment not found"}
+
+
+@app.post("/save_transport")
+async def save_transport(
+    equipment_number: str = Form(...),
+    equipment_type: str = Form(...),
+    equipment_license_number: str = Form(...),
+    driver_name: str = Form(...),
+    driver_license_number: str = Form(...),
+    equipment_description: str = Form(...),
+):
+    # Process the received data as needed (e.g., save to the database)
+    print("hi")
+    new_equipment = {
+        "equipment_number": equipment_number,
+        "equipment_type": equipment_type,
+        "equipment_license_number": equipment_license_number,
+        "driver_name": driver_name,
+        "driver_license_number": driver_license_number,
+        "equipment_description": equipment_description,
+    }
+
+
+    print(new_equipment)
+
+    new_equipment = TransportationEquipment(**new_equipment)
+    db.add(new_equipment)
+    db.commit()
+
+
+    return {"message": "Equipment added successfully"}
+
+# @app.put("/update_transport_equipment/{id}")
+# async def update_transport_equipment(
+#     id: int,
+#     request: Request,
+#     equipment_number: str = Form(...),
+#     equipment_type: str = Form(...),
+#     equipment_license_number: str = Form(...),
+#     driver_name: str = Form(...),
+#     driver_license_number: str = Form(...),
+#     equipment_description: str = Form(...),
+#     db: Session = Depends(get_db),
+# ):
+#     updated_data = schemas.TransportationEquipmentUpdate(
+#         equipment_number=equipment_number,
+#         equipment_type=equipment_type,
+#         equipment_license_number=equipment_license_number,
+#         driver_name=driver_name,
+#         driver_license_number=driver_license_number,
+#         equipment_description=equipment_description,
+#     )
+#     updated_equipment = crud.update_equipment(db, id, updated_data)
+#     return {"message": "Equipment updated successfully"}

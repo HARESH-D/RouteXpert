@@ -472,6 +472,50 @@ async def trans_location_config(request: Request):
 async def add_transport_equipment(request: Request):
     return templates.TemplateResponse("add_location.html", {"request": request})
 
+@app.get("/update_location/{id}", response_class=HTMLResponse)
+async def update_transport_equipment(request: Request, id: str):
+
+    global id_global
+    id_global = id
+
+    equipment_list = []
+
+
+    equipment = db.query(TransportationLocation).filter(TransportationLocation.id == id).first()
+    location_data = {
+            "id": equipment.id,
+            "index": equipment.index,
+            "villages": equipment.villages,
+            "address": equipment.address,
+            }
+    equipment_list.append(location_data)
+    print(location_data)
+    
+    return templates.TemplateResponse("update_location.html", {"request": request, "location": equipment_list})
+
+
+@app.delete("/delete_location/{id}", response_class=HTMLResponse)
+async def delete_location(request: Request, id: str):
+
+    print(id)
+ 
+    db.query(TransportationLocation).filter(TransportationLocation.id == id).delete()
+    db.commit()
+
+    equipment_list = []
+    equipment = db.query(TransportationLocation).all()
+    for equipment in equipment:
+        equipment_data = {
+            "id": equipment.id,
+            "index": equipment.index,
+            "villages": equipment.villages,
+            "address": equipment.address,
+        }
+        equipment_list.append(equipment_data)
+
+    # print(Warehouse)
+    return templates.TemplateResponse("trans_location_config.html", {"request": request, "location": equipment_list})
+
 
 @app.post("/save_location")
 async def save_location(
@@ -487,32 +531,12 @@ async def save_location(
             "address": address,
         }
 
-    global id_global
-    id = id_global
+    new_equipment = TransportationLocation(**location_data)
+    db.add(new_equipment)
+    db.commit()
 
-    try:
-        location = db.query(TransportationLocation).filter(TransportationLocation.id == id).first()
-        if location:
-            for key, value in location_data.items():
-                setattr(location, key, value)
-            db.commit()
 
-            location_data = {
-            "index": location.index,
-            "villages": location.villages,
-            "address": location.address,
-            }
-            return location_data
-        else:
-            return {"message": "Transportation Location not found with the provided ID."}
-    except Exception as e:
-        db.rollback()
-        return {"message": f"Error updating warehouse: {e}"}
-    finally:
-        db.close()
-
-        return {"message": "Transporation Location data updated successfully"}
-
+    return {"message": "Location added successfully"}
 
 
 @app.put("/save_location")
@@ -523,7 +547,7 @@ async def save_location(
 ):
     # Process the received data as needed (e.g., save to the database)
     print("hi")
-    location_data = {
+    data = {
             "index": index,
             "villages": villages,
             "address": address,
@@ -535,31 +559,28 @@ async def save_location(
     id = id_global
 
     try:
-        equipment = db.query(TransportationEquipment).filter(TransportationEquipment.id == id).first()
+        equipment = db.query(TransportationLocation).filter(TransportationLocation.id == id).first()
         if equipment:
             for key, value in data.items():
                 setattr(equipment, key, value)
             db.commit()
 
-            equipment_data = {
+            location_data = {
             "id": equipment.id,
-            "equipment_number": equipment.equipment_number,
-            "equipment_type": equipment.equipment_type,
-            "equipment_license_number": equipment.equipment_license_number,
-            "driver_name": equipment.driver_name,
-            "driver_license_number": equipment.driver_license_number,
-            "equipment_description": equipment.equipment_description,
-            } 
-            return equipment_data
+            "index": equipment.index,
+            "villages": equipment.villages,
+            "address": equipment.address,
+            }
+            return location_data
         else:
-            return {"message": "Transportation Equipment not found with the provided ID."}
+            return {"message": "Transportation Location not found with the provided ID."}
     except Exception as e:
         db.rollback()
         return {"message": f"Error updating warehouse: {e}"}
     finally:
         db.close()
 
-        return {"message": "Transporation Equipment data updated successfully"}
+        return {"message": "Transporation Location data updated successfully"}
 
 
 

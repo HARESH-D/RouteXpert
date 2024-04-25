@@ -113,11 +113,7 @@
                 ><span>Transportation locations</span>
               </a>
             </li>
-            <li>
-              <a href="trans_status_config">
-                <i class="bi bi-circle"></i><span>Status</span>
-              </a>
-            </li>
+            
           </ul>
         </li>
         <!-- End Components Nav -->
@@ -183,47 +179,22 @@
                       ></button>
                     </div>
                     <div class="modal-body">
-                      {% for l in location %}
-                      <form id="UpdateTransportForm">
+                      
+                      <form id="updateTransportForm">
+                        {% for l in location %}
                         <div class="col-md-7">
-                        <label for="index" class="form-label"
-                          >Index:</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="index"
-                          name="{{ l.index }}"
-                          required
-                        />
-
-                        
-                          <label for="villages" class="form-label"
-                            >Village</label
-                          >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="villages"
-                          name ="{{ l.villages}}"
-                          required
-                        />
-                    </div>
-                        
-                        <label for="address" class="form-label"
-                          >Address:</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="address"
-                          name="{{ l.address }}"
-                          required
-                        />
-                        
-                    
-                      </form>
-                      {% endfor %}
+                            <label for="index" class="form-label">Index:</label>
+                            <input type="text" class="form-control" id="index" name="index" value="{{ l.index }}" required />
+                            
+                            <label for="villages" class="form-label">Village:</label>
+                            <input type="text" class="form-control" id="villages" name="villages" value="{{ l.villages }}" required />
+                            
+                            <label for="address" class="form-label">Address:</label>
+                            <input type="text" class="form-control" id="address" name="address" value="{{ l.address }}" required />
+                        </div>
+                        {% endfor %}
+                    </form>
+                      
                     </div>
                     <div class="modal-footer">
                       <button
@@ -273,7 +244,7 @@
             document.getElementById("updateTransportForm")
           );
           try {
-            const response = await fetch("/save_transport", {
+            const response = await fetch("/save_location", {
               method: "PUT",
               body: formData,
             });
@@ -281,7 +252,7 @@
               const result = await response.json();
               alert(result.message);
               modal.hide(); // Close modal after saving
-              window.location.href = "/trans_equip_config"; // Redirect to desired page
+              window.location.href = "/trans_location_config"; // Redirect to desired page
             } else {
               throw new Error("Network response was not ok.");
             }
@@ -293,12 +264,12 @@
 
         const closeBtn = document.querySelector('[data-bs-dismiss="modal"]');
         closeBtn.addEventListener("click", function () {
-          window.location.href = "/trans_equip_config"; // Redirect to desired page on modal close/cancel
+          window.location.href = "/trans_location_config"; // Redirect to desired page on modal close/cancel
         });
 
         const cancelBtn = document.getElementById("closeBtnn"); // Using the close button as cancel
         cancelBtn.addEventListener("click", function () {
-          window.location.href = "/trans_equip_config"; // Redirect to desired page on modal close/cancel
+          window.location.href = "/trans_location_config"; // Redirect to desired page on modal close/cancel
         });
       });
     </script>

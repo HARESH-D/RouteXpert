@@ -66,6 +66,22 @@ async def update_warehouse(request: Request, id: str):
     print(id)
     id_global = id
 
+    all = db.query(Warehouse).all()
+    warehouse_list = []
+    for warehouse in all:
+        warehouse_data = {
+            "id": warehouse.id,
+            "warehouse_user_name": warehouse.warehouse_user_name,
+            "warehouse_name": warehouse.warehouse_name,
+            "address_lane_1": warehouse.address_lane_1,
+            "address_lane_2": warehouse.address_lane_2,
+            "state": warehouse.state,
+            "city": warehouse.city,
+            "zip": warehouse.zip,
+        }
+        warehouse_list.append(warehouse_data)
+    print(warehouse_list)
+
     warehouse = db.query(Warehouse).filter(Warehouse.id == id).first()
     warehouse_list = []
 

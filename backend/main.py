@@ -7,7 +7,7 @@ import httpx
 from typing import List
 from fastapi.encoders import jsonable_encoder
 from sql_app.database import SessionLocal, engine
-from sql_app.model import Warehouse, TransportationEquipment
+from sql_app.model import Warehouse, TransportationEquipment, TransportationLocation
 from sql_app import model
 from pydantic import BaseModel
 
@@ -284,7 +284,6 @@ async def update_warehouse(
     return {"message": "Warehouse data saved successfully"}
 
 
-
 @app.get("/trans_equip_config",response_class=HTMLResponse)
 async def trans_equip_config(request: Request):
 
@@ -292,8 +291,7 @@ async def trans_equip_config(request: Request):
     db = SessionLocal()
     # # Retrieve equipment data from the database
     equipment_records = db.query(TransportationEquipment).all()
-
-    
+ 
     
     for equipment in equipment_records:
         equipment_data = {
@@ -315,15 +313,55 @@ async def trans_equip_config(request: Request):
 async def add_transport_equipment(request: Request):
     return templates.TemplateResponse("add_transport.html", {"request": request})
 
-# @app.get("/update_transport_equipment/{id}", response_class=HTMLResponse)
-# async def update_transport_equipment(request: Request, id: int, db: Session = Depends(get_db)):
-#     equipment = crud.get_equipment(db, id)
-#     return templates.TemplateResponse("update_transport_equipment.html", {"request": request, "equipment": equipment})
+@app.get("/update_equipment/{id}", response_class=HTMLResponse)
+async def update_transport_equipment(request: Request, id: str):
 
-# @app.delete("/delete_transport_equipment/{id}")
-# async def delete_transport_equipment(id: int, db: Session = Depends(get_db)):
-#     deleted = crud.delete_equipment(db, id)
-#     return {"message": "Equipment deleted successfully" if deleted else "Equipment not found"}
+    global id_global
+    id_global = id
+
+    equipment_list = []
+
+
+    equipment = db.query(TransportationEquipment).filter(TransportationEquipment.id == id_global).first()
+
+    equipment_data = {
+        "id": equipment.id,
+        "equipment_number": equipment.equipment_number,
+        "equipment_type": equipment.equipment_type,
+        "equipment_license_number": equipment.equipment_license_number,
+        "driver_name": equipment.driver_name,
+        "driver_license_number": equipment.driver_license_number,
+        "equipment_description": equipment.equipment_description,
+    }
+    equipment_list.append(equipment_data)
+    
+    return templates.TemplateResponse("update_transport.html", {"request": request, "equipment": equipment_list})
+
+
+@app.delete("/delete_equipment/{id}", response_class=HTMLResponse)
+async def delete_equipment(request: Request, id: str):
+
+    print(id)
+ 
+    db.query(TransportationEquipment).filter(TransportationEquipment.id == id).delete()
+    db.commit()
+
+    equipment_list = []
+    equipment = db.query(TransportationEquipment).all()
+    for equipment in equipment:
+        equipment_data = {
+            "id": equipment.id,
+            "equipment_number": equipment.equipment_number,
+            "equipment_type": equipment.equipment_type,
+            "equipment_license_number": equipment.equipment_license_number,
+            "driver_name": equipment.driver_name,
+            "driver_license_number": equipment.driver_license_number,
+            "equipment_description": equipment.equipment_description,
+        }
+        equipment_list.append(equipment_data)
+
+    # print(Warehouse)
+    return templates.TemplateResponse("trans_equip_config.html", {"request": request, "warehouse": equipment_list})
 
 
 @app.post("/save_transport")
@@ -356,25 +394,175 @@ async def save_transport(
 
     return {"message": "Equipment added successfully"}
 
-# @app.put("/update_transport_equipment/{id}")
-# async def update_transport_equipment(
-#     id: int,
-#     request: Request,
-#     equipment_number: str = Form(...),
-#     equipment_type: str = Form(...),
-#     equipment_license_number: str = Form(...),
-#     driver_name: str = Form(...),
-#     driver_license_number: str = Form(...),
-#     equipment_description: str = Form(...),
-#     db: Session = Depends(get_db),
-# ):
-#     updated_data = schemas.TransportationEquipmentUpdate(
-#         equipment_number=equipment_number,
-#         equipment_type=equipment_type,
-#         equipment_license_number=equipment_license_number,
-#         driver_name=driver_name,
-#         driver_license_number=driver_license_number,
-#         equipment_description=equipment_description,
-#     )
-#     updated_equipment = crud.update_equipment(db, id, updated_data)
-#     return {"message": "Equipment updated successfully"}
+
+@app.put("/save_transport")
+async def save_transport(
+    equipment_number: str = Form(...),
+    equipment_type: str = Form(...),
+    equipment_license_number: str = Form(...),
+    driver_name: str = Form(...),
+    driver_license_number: str = Form(...),
+    equipment_description: str = Form(...),
+):
+    # Process the received data as needed (e.g., save to the database)
+    data = {
+        "equipment_number": equipment_number,
+        "equipment_type": equipment_type,
+        "equipment_license_number": equipment_license_number,
+        "driver_name": driver_name,
+        "driver_license_number": driver_license_number,
+        "equipment_description": equipment_description,
+    }
+
+
+    print(data)
+    global id_global
+    id = id_global
+
+    try:
+        equipment = db.query(TransportationEquipment).filter(TransportationEquipment.id == id).first()
+        if equipment:
+            for key, value in data.items():
+                setattr(equipment, key, value)
+            db.commit()
+
+            equipment_data = {
+            "id": equipment.id,
+            "equipment_number": equipment.equipment_number,
+            "equipment_type": equipment.equipment_type,
+            "equipment_license_number": equipment.equipment_license_number,
+            "driver_name": equipment.driver_name,
+            "driver_license_number": equipment.driver_license_number,
+            "equipment_description": equipment.equipment_description,
+            } 
+            return equipment_data
+        else:
+            return {"message": "Transportation Equipment not found with the provided ID."}
+    except Exception as e:
+        db.rollback()
+        return {"message": f"Error updating warehouse: {e}"}
+    finally:
+        db.close()
+
+        return {"message": "Transporation Equipment data updated successfully"}
+
+
+@app.get("/trans_location_config",response_class=HTMLResponse)
+async def trans_location_config(request: Request):
+
+    transportation_location_list = []
+    db = SessionLocal()
+    # # Retrieve equipment data from the database
+    transportation_location_records= db.query(TransportationLocation).all()
+ 
+    
+    for location in transportation_location_records:
+        location_data = {
+            "id": location.id,
+            "index": location.index,
+            "villages": location.villages,
+            "address": location.address,
+        }
+        transportation_location_list.append(location_data)
+
+    return templates.TemplateResponse("trans_location_config.html", {"request": request, "location": transportation_location_list})
+
+
+@app.get("/add_location", response_class=HTMLResponse)
+async def add_transport_equipment(request: Request):
+    return templates.TemplateResponse("add_location.html", {"request": request})
+
+
+@app.post("/save_location")
+async def save_location(
+    index: str = Form(...),
+    villages: str = Form(...),
+    address: str = Form(...),
+):
+    # Process the received data as needed (e.g., save to the database)
+    print("hi")
+    location_data = {
+            "index": index,
+            "villages": villages,
+            "address": address,
+        }
+
+    global id_global
+    id = id_global
+
+    try:
+        location = db.query(TransportationLocation).filter(TransportationLocation.id == id).first()
+        if location:
+            for key, value in location_data.items():
+                setattr(location, key, value)
+            db.commit()
+
+            location_data = {
+            "index": location.index,
+            "villages": location.villages,
+            "address": location.address,
+            }
+            return location_data
+        else:
+            return {"message": "Transportation Location not found with the provided ID."}
+    except Exception as e:
+        db.rollback()
+        return {"message": f"Error updating warehouse: {e}"}
+    finally:
+        db.close()
+
+        return {"message": "Transporation Location data updated successfully"}
+
+
+
+@app.put("/save_location")
+async def save_location(
+    index: str = Form(...),
+    villages: str = Form(...),
+    address: str = Form(...),
+):
+    # Process the received data as needed (e.g., save to the database)
+    print("hi")
+    location_data = {
+            "index": index,
+            "villages": villages,
+            "address": address,
+        }
+
+
+    print(data)
+    global id_global
+    id = id_global
+
+    try:
+        equipment = db.query(TransportationEquipment).filter(TransportationEquipment.id == id).first()
+        if equipment:
+            for key, value in data.items():
+                setattr(equipment, key, value)
+            db.commit()
+
+            equipment_data = {
+            "id": equipment.id,
+            "equipment_number": equipment.equipment_number,
+            "equipment_type": equipment.equipment_type,
+            "equipment_license_number": equipment.equipment_license_number,
+            "driver_name": equipment.driver_name,
+            "driver_license_number": equipment.driver_license_number,
+            "equipment_description": equipment.equipment_description,
+            } 
+            return equipment_data
+        else:
+            return {"message": "Transportation Equipment not found with the provided ID."}
+    except Exception as e:
+        db.rollback()
+        return {"message": f"Error updating warehouse: {e}"}
+    finally:
+        db.close()
+
+        return {"message": "Transporation Equipment data updated successfully"}
+
+
+
+
+
+

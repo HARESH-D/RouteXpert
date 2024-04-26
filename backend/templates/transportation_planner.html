@@ -204,15 +204,25 @@
 
 
 
-    <div class="directionsContainer">
-        <div id="directionsPanel"></div>
-        <div id="directionsItinerary"></div>
-
-        <!-- New div elements to display start and end locations -->
-        <!-- <div id="startLocationInfo">Start Location: </div>
-        <div id="endLocationInfo">End Location: </div> -->
+      <div class="grid-container">
+        <div class="grid-item" id="mapContainer">
+            <div id="myMap"></div>
+            <div id="directionsPanel"></div>
+        </div>
+        <div class="grid-item">
+            <div id="startLocationInfo"></div>
+        </div>
+        <div class="grid-item">
+            <div id="endLocationInfo"></div>
+        </div>
+        <div class="grid-item">
+            <div id="otherContents">
+                <!-- Other contents here -->
+                <h2>Other Contents</h2>
+                <p>This is some additional content.</p>
+            </div>
+        </div>
     </div>
-    <div id="myMap"></div>
 
     <script type='text/javascript'>
         var map;

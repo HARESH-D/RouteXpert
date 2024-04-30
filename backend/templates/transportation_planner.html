@@ -1,3 +1,4 @@
+@ -1,290 +1,286 @@
 
 
 <!DOCTYPE html>
@@ -58,8 +59,6 @@
 
     <!-- Template Main CSS File -->
     <link href="../static/assets/css/style.css" rel="stylesheet" />
-    <script type='text/javascript' src='https://code.jquery.com/jquery-3.6.4.min.js'></script>
-    <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AqesDSP1QCJfuPJJ0PeaaRPGCFr2gou-EVTJEgM5_d_aNCw80OGn1BfVXAZRqvWk' async defer></script>
     <style>
         html, body {
             padding: 0;
@@ -68,18 +67,37 @@
         }
 
         .directionsContainer {
-            width: 380px;
-            height: 100%;
-            /* overflow-y: auto; */
-            float: right;
+            width: 30%;
+            height: 50%;
+            float: left;
+            position: relative;
+            right: 0;
+            padding-left: 50px;
+            background-color: rgb(255, 255, 255); /* Just for visualization */
         }
 
         #myMap {
+            width: 70%;
+            height: 50%;
+            float: right;
             position: relative;
-            width: calc(100% - 480px);
-            height: 100%;
-            float: left;
+            left: 0;
+            background-color: lightblue; /* Just for visualization */
         }
+
+        .tableContainer {
+            width: 35%;
+            height: 50%;
+            float: right;
+            position: relative;
+            right: 0;
+            padding-left: 50px;
+            background-color: rgb(255, 255, 255); /* Just for visualization */
+        }
+
+
+
+
     </style>
 </head>
 <body>
@@ -172,58 +190,128 @@
         </ul>
       </aside>
       <!-- End Sidebar-->
-<!--   
-      <main id="main"> -->
-        <!-- <div class="pagetitle">
-          <h3>Transportation Planner</h3>
-          <nav>
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="">Home</a></li>
-              <li class="breadcrumb-item active">Transportation Planner</li>
-            </ol>
-          </nav>
-        </div> -->
-        <!-- End Page Title -->
-  
-        <section class="section dashboard">
-          <div class="row">
-            <!-- Left side columns -->
-            <div class="col-lg-4">
-              <div class="row"></div>
-            </div>
-          </div>
-        </section>
-      <!-- </main> -->
-      <!-- End #main -->
-  
+
       <a
         href="#"
         class="back-to-top d-flex align-items-center justify-content-center"
         ><i class="bi bi-arrow-up-short"></i
       ></a>
+ 
+      <!-- <main id="main" class="main">   -->
 
+    <div class="directionsContainer">
+        <div id="directionsPanel"></div>
+        <div id="directionsItinerary"></div>
 
-
-      <div class="grid-container">
-        <div class="grid-item" id="mapContainer">
-            <div id="myMap"></div>
-            <div id="directionsPanel"></div>
-        </div>
-        <div class="grid-item">
-            <div id="startLocationInfo"></div>
-        </div>
-        <div class="grid-item">
-            <div id="endLocationInfo"></div>
-        </div>
-        <div class="grid-item">
-            <div id="otherContents">
-                <!-- Other contents here -->
-                <h2>Other Contents</h2>
-                <p>This is some additional content.</p>
-            </div>
-        </div>
+        <!-- New div elements to display start and end locations -->
+        <!-- <div id="startLocationInfo">Start Location: </div>
+        <div id="endLocationInfo">End Location: </div> -->
     </div>
 
+    <div id="myMap"></div>
+
+    <div class="tableContainer">
+      <section class="section dashboard">
+        <div class="container-lg-10 mt-4">
+          <div class="card">
+            <div class="card-body">
+              <table class="table datatable table-bordered table-striped">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>Select</th>
+                    <th>Equipment Number</th>
+                    <th>Equipment Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Replace 'trans_equipment' with your data variable -->
+                  {% for equipment in equipment %}
+                  <tr>
+                    <td>
+                      <input
+                        type="checkbox"
+                        name="selectedEquipment"
+                        value="{{ equipment.id }}"
+                      />
+                    </td>
+                    <td class="equipment-info" data-column="equipment_number">
+                      {{ equipment.equipment_number }}
+                    </td>
+                    <td class="equipment-info" data-column="equipment_type">
+                      {{ equipment.equipment_type }}
+                    </td>
+
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pop-up Modal -->
+        <div id="equipmentModal" class="modal">
+          <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modalContent"></div>
+          </div>
+        </div>
+      </section>
+      </div>
+
+
+    <div class="tableContainer">
+      <section class="section dashboard">
+        <div class="container-lg-10 mt-4">
+          <div class="card">
+            <div class="card-body">
+              <table class="table datatable table-bordered table-striped">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>Select</th>
+                    <th>Village ID</th>
+                    <th>Village</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Replace 'trans_location' with your data variable -->
+                  {% for location in location %}
+                  <tr>
+                    <td>
+                      <input
+                        type="checkbox"
+                        name="selectedlocation"
+                        value="{{ location.id }}"
+                      />
+                    </td>
+                    <td class="location-info" data-column="location_number">
+                      {{ location.index }}
+                    </td>
+                    <td class="location-info" data-column="location_type">
+                      {{ location.villages }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pop-up Modal -->
+        <div id="locationModal" class="modal">
+          <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modalContent"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    
+    <script type='text/javascript' src='https://code.jquery.com/jquery-3.6.4.min.js'></script>
+    <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AqesDSP1QCJfuPJJ0PeaaRPGCFr2gou-EVTJEgM5_d_aNCw80OGn1BfVXAZRqvWk' async defer></script>
+  
     <script type='text/javascript'>
         var map;
         var directionsManager;
@@ -285,6 +373,27 @@
             });
         }
     </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const updateLink = document.querySelector("#SubmitBtn");
+        updateLink.addEventListener("click", function (event) {
+          event.preventDefault(); // Prevent the default action (following the link)
+
+          const selectedCheckboxes = document.querySelectorAll(
+            'input[name="selectedEquipment"]:checked'
+          );
+          if (selectedCheckboxes.length === 0) {
+            alert("Please select at least one equipment to update.");
+          } else if (selectedCheckboxes.length > 1) {
+            alert("You can update only one equipment/row of data at a time.");
+          } else {
+            const selectedId = selectedCheckboxes[0].value;
+            const updateUrl = `/update_equipment/${selectedId}`;
+            window.location.href = updateUrl; // Redirect to the update page with selected ID
+          }
+        });
+      });
+    </script>
         <!-- Vendor JS Files -->
         <script src="../static/assets/vendor/apexcharts/apexcharts.min.js"></script>
         <script src="../static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -294,8 +403,6 @@
         <script src="../static/assets/vendor/simple-datatables/simple-datatables.js"></script>
         <script src="../static/assets/vendor/tinymce/tinymce.min.js"></script>
         <script src="../static/assets/vendor/php-email-form/validate.js"></script>
-    
-        <!-- Template Main JS File -->
         <script src="../static/assets/js/main.js">
 
         </script>

@@ -40,7 +40,40 @@ async def read_root(request: Request):
 
 @app.get("/transportation_planner", response_class=HTMLResponse)
 async def transportation_planner(request: Request):
-    return templates.TemplateResponse("transportation_planner.html", {"request": request})
+        
+    equipment_list = []
+    db = SessionLocal()
+    # # Retrieve equipment data from the database
+    equipment_records = db.query(TransportationEquipment).all()
+ 
+    
+    for equipment in equipment_records:
+        equipment_data = {
+            "id": equipment.id,
+            "equipment_number": equipment.equipment_number,
+            "equipment_type": equipment.equipment_type,
+        }
+        equipment_list.append(equipment_data)
+
+    print(equipment_list)
+
+    transportation_location_list = []
+    db = SessionLocal()
+    # # Retrieve equipment data from the database
+    transportation_location_records= db.query(TransportationLocation).all()
+ 
+    
+    for location in transportation_location_records:
+        location_data = {
+            "id": location.id,
+            "index": location.index,
+            "villages": location.villages,
+
+        }
+        transportation_location_list.append(location_data)
+
+    return templates.TemplateResponse("transportation_planner.html", {"request": request, "location": transportation_location_list,"equipment": equipment_list})
+
 
 
 @app.get("/warehouse_config", response_class=HTMLResponse)
@@ -581,6 +614,9 @@ async def save_location(
         db.close()
 
         return {"message": "Transporation Location data updated successfully"}
+
+
+
 
 
 

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transportation Planner</title>
+    <style>
+        /* Add your styles here */
+        /* Example styles for simplicity */
+        form {
+            margin-bottom: 20px;
+        }
+    </style>
+    <script type='text/javascript' src='https://code.jquery.com/jquery-3.6.4.min.js'></script>
+    <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AqesDSP1QCJfuPJJ0PeaaRPGCFr2gou-EVTJEgM5_d_aNCw80OGn1BfVXAZRqvWk' async defer></script>
+</head>
+<body>
+    <h1>Transportation Planner</h1>
+    
+    <form id="locationForm">
+        <label for="name">Location Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="latitude">Latitude:</label>
+        <input type="text" id="latitude" name="latitude" required><br><br>
+        <label for="longitude">Longitude:</label>
+        <input type="text" id="longitude" name="longitude" required><br><br>
+        <button type="submit">Add Location</button>
+    </form>
+
+    <div id="locationsList"></div>
+
+    <script>
+        const baseURL = 'http://localhost:8000/api/locations/';
+
+        document.getElementById('locationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const latitude = document.getElementById('latitude').value;
+            const longitude = document.getElementById('longitude').value;
+            await addLocation({ name, latitude, longitude });
+            fetchLocations();
+        });
+
+        async function addLocation(location) {
+            const response = await fetch(baseURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(location)
+            });
+            return await response.json();
+        }
+
+        async function fetchLocations() {
+            const response = await fetch(baseURL);
+            const locations = await response.json();
+            displayLocations(locations);
+        }
+
+        function displayLocations(locations) {
+            const locationsList = document.getElementById('locationsList');
+            locationsList.innerHTML = '<h2>Locations</h2>';
+            locations.forEach(location => {
+                locationsList.innerHTML += `<p>Name: ${location.name}, Latitude: ${location.latitude}, Longitude: ${location.longitude}</p>`;
+            });
+        }
+
+        // Initial fetch when the page loads
+        fetchLocations();
+    </script>
+</body>
+</html>

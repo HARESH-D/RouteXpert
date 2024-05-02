@@ -1,304 +1,46 @@
-@ -1,290 +1,286 @@
-
-
 <!DOCTYPE html>
 <html>
 <head>
     <title></title>
     <meta charset="utf-8" />
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-
-    <title>Transportation Planner</title>
-    <meta content="" name="description" />
-    <meta content="" name="keywords" />
-
-    <!-- Favicons -->
-    <link href="../static/assets/img/favicon.png" rel="icon" />
-    <link
-      href="../static/assets/img/apple-touch-icon.png"
-      rel="apple-touch-icon"
-    />
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-      rel="stylesheet"
-    />
-
-    <!-- Vendor CSS Files -->
-    <link
-      href="../static/assets/vendor/bootstrap/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="../static/assets/vendor/bootstrap-icons/bootstrap-icons.css"
-      rel="stylesheet"
-    />
-    <link
-      href="../static/assets/vendor/boxicons/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="../static/assets/vendor/quill/quill.snow.css"
-      rel="stylesheet"
-    />
-    <link
-      href="../static/assets/vendor/quill/quill.bubble.css"
-      rel="stylesheet"
-    />
-    <link
-      href="../static/assets/vendor/remixicon/remixicon.css"
-      rel="stylesheet"
-    />
-    <link
-      href="../static/assets/vendor/simple-datatables/style.css"
-      rel="stylesheet"
-    />
-
-    <!-- Template Main CSS File -->
-    <link href="../static/assets/css/style.css" rel="stylesheet" />
-    <style>
-        html, body {
-            padding: 0;
-            margin: 0;
-            height: 100%;
-        }
-
-        .directionsContainer {
-            width: 30%;
-            height: 50%;
-            float: left;
-            position: relative;
-            right: 0;
-            padding-left: 50px;
-            background-color: rgb(255, 255, 255); /* Just for visualization */
-        }
-
-        #myMap {
-            width: 70%;
-            height: 50%;
-            float: right;
-            position: relative;
-            left: 0;
-            background-color: lightblue; /* Just for visualization */
-        }
-
-        .tableContainer {
-            width: 70%;
-            height: 50%;
-            float: right;
-            position: relative;
-            right: 0;
-            padding-left: 50px;
-            background-color: rgb(255, 255, 255); /* Just for visualization */
-        }
-
-
-    </style>
-</head>
-<body>
-
-     <!-- ======= Header ======= -->
-     <header id="header" class="header fixed-top d-flex align-items-center">
-        <div class="d-flex align-items-center justify-content-between">
-          <a href="/" class="logo d-flex align-items-center">
-            <img src="../static/assets/img/logo.png" alt="" />
-            <span class="d-none d-lg-block">RoutExpert</span>
-          </a>
-          <i class="bi bi-list toggle-sidebar-btn"></i>
-        </div>
-        <!-- End Logo -->
-      </header>
-      <!-- End Header -->
-  
-      <!-- ======= Sidebar ======= -->
-      <aside id="sidebar" class="sidebar">
-        <ul class="sidebar-nav" id="sidebar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="/">
-              <i class="bi bi-grid"></i>
-              <span>Dashboard</span>
-            </a>
-          </li>
-          <!-- End Dashboard Nav -->
-  
-          <li class="nav-item">
-            <a
-              class="nav-link collapsed"
-              data-bs-target="#components-nav"
-              data-bs-toggle="collapse"
-              href="#"
-            >
-              <i class="bi bi-menu-button-wide"></i><span>Configuration</span
-              ><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul
-              id="components-nav"
-              class="nav-content collapse"
-              data-bs-parent="#sidebar-nav"
-            >
-              <li>
-                <a href="warehouse_config">
-                  <i class="bi bi-circle"></i><span>Warehouse</span>
-                </a>
-              </li>
-              <li>
-                <a href="trans_equip_config">
-                  <i class="bi bi-circle"></i
-                  ><span>Transportation Equipment</span>
-                </a>
-              </li>
-              <li>
-                <a href="trans_location_config">
-                  <i class="bi bi-circle"></i
-                  ><span>Transportation locations</span>
-                </a>
-              </li>
-
-            </ul>
-          </li>
-          <!-- End Components Nav -->
-  
-          <li class="nav-item">
-            <a
-              class="nav-link collapsed"
-              data-bs-target="#forms-nav"
-              data-bs-toggle="collapse"
-              href="#"
-            >
-              <i class="bi bi-journal-text"></i
-              ><span>Transportation Logistics System</span
-              ><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul
-              id="forms-nav"
-              class="nav-content collapse"
-              data-bs-parent="#sidebar-nav"
-            >
-              <li>
-                <a href="transportation_planner">
-                  <i class="bi bi-circle"></i><span>Transportation Planner</span>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <!-- End Forms Nav -->
-        </ul>
-      </aside>
-      <!-- End Sidebar-->
-<!--   
-      <main id="main"> -->
-        <!-- <div class="pagetitle">
-          <h3>Transportation Planner</h3>
-          <nav>
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="">Home</a></li>
-              <li class="breadcrumb-item active">Transportation Planner</li>
-            </ol>
-          </nav>
-        </div> -->
-  
-      <!-- </main> -->
-      <!-- End #main -->
-  
-      <a
-        href="#"
-        class="back-to-top d-flex align-items-center justify-content-center"
-        ><i class="bi bi-arrow-up-short"></i
-      ></a>
-
-      <!-- <main id="main" class="main">   -->
-
-    <div class="directionsContainer">
-        <div id="directionsPanel"></div>
-        <div id="directionsItinerary"></div>
-
-        <!-- New div elements to display start and end locations -->
-        <!-- <div id="startLocationInfo">Start Location: </div>
-        <div id="endLocationInfo">End Location: </div> -->
-    </div>
-
-    <div id="myMap"></div>
-
-        <!-- </main> -->
-
-    <script type='text/javascript' src='https://code.jquery.com/jquery-3.6.4.min.js'></script>
-    <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AqesDSP1QCJfuPJJ0PeaaRPGCFr2gou-EVTJEgM5_d_aNCw80OGn1BfVXAZRqvWk' async defer></script>
-  
-    <script type='text/javascript'>
+	<script type='text/javascript'>
         var map;
         var directionsManager;
 
-        function GetMap() {
+        function GetMap()
+        {
             map = new Microsoft.Maps.Map('#myMap', {});
 
-            // Load the directions module.
+            //Load the directions module.
             Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
-                // Create an instance of the directions manager.
+                //Create an instance of the directions manager.
                 directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
 
-                // Specify where to display the route instructions.
+                //Create waypoints to route between.
+                var seattleWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'madurai' });
+                directionsManager.addWaypoint(seattleWaypoint);
+
+                var workWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'chennai' });
+                directionsManager.addWaypoint(workWaypoint);
+
+                var workWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'kanyakumari' });
+                directionsManager.addWaypoint(workWaypoint);
+
+
+                //Specify the element in which the itinerary will be rendered.
                 directionsManager.setRenderOptions({ itineraryContainer: '#directionsItinerary' });
 
-                // Specify the where to display the input panel
-                directionsManager.showInputPanel('directionsPanel');
-
-                // Add event handler for when directions are calculated.
-                Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', function (args) {
-                    // Get the start and end locations.
-                    var startLocation = directionsManager.getRouteResult().routes[0].routeLegs[0].actualStart.displayAddress;
-                    var endLocation = directionsManager.getRouteResult().routes[0].routeLegs[0].actualEnd.displayAddress;
-
-                    // Log the coordinates to the console.
-                    geocodeLocation(startLocation, 'Start');
-                    geocodeLocation(endLocation, 'End');
-                });
+                //Calculate directions.
+                directionsManager.calculateDirections();
             });
         }
-
-        function updateLocationInfo(elementId, info) {
-            // Update the HTML with location information.
-            var infoDiv = document.getElementById(elementId);
-            infoDiv.innerHTML = info;
-        }
-
-        function geocodeLocation(location, type) {
-            // Use Bing Maps Location API to get the coordinates of the location.
-            var geocodeRequest = 'http://dev.virtualearth.net/REST/v1/Locations/' + encodeURIComponent(location) + '?key=AqesDSP1QCJfuPJJ0PeaaRPGCFr2gou-EVTJEgM5_d_aNCw80OGn1BfVXAZRqvWk';
-
-            // Make an AJAX request to the Bing Maps Location API.
-            $.ajax({
-                url: geocodeRequest,
-                dataType: 'json',
-                success: function (data) {
-                    // Extract coordinates from the response.
-                    var coordinates = data.resourceSets[0].resources[0].point.coordinates;
-
-                    // Use the obtained coordinates for further processing.
-                    console.log(type + ' Location - Latitude: ' + coordinates[0] + ', Longitude: ' + coordinates[1]);
-
-                    // Update the HTML with latitude and longitude information.
-                    updateLocationInfo(type.toLowerCase() + 'LocationInfo', type + ' Location - Latitude: ' + coordinates[0] + ', Longitude: ' + coordinates[1]);
-                },
-                error: function (error) {
-                    console.error('Error geocoding location: ' + error);
-                }
-            });
-        }
+        
+    
     </script>
-        <!-- Vendor JS Files -->
-        <script src="../static/assets/vendor/apexcharts/apexcharts.min.js"></script>
-        <script src="../static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="../static/assets/vendor/chart.js/chart.umd.js"></script>
-        <script src="../static/assets/vendor/echarts/echarts.min.js"></script>
-        <script src="../static/assets/vendor/quill/quill.min.js"></script>
-        <script src="../static/assets/vendor/simple-datatables/simple-datatables.js"></script>
-        <script src="../static/assets/vendor/tinymce/tinymce.min.js"></script>
-        <script src="../static/assets/vendor/php-email-form/validate.js"></script>
-        <script src="../static/assets/js/main.js">
-
-        </script>
+    <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AqesDSP1QCJfuPJJ0PeaaRPGCFr2gou-EVTJEgM5_d_aNCw80OGn1BfVXAZRqvWk' async defer></script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:800px;height:600px;"></div>
+    <div id='directionsItinerary'></div> 
 </body>
 </html>

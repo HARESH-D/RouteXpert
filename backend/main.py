@@ -1,4 +1,6 @@
 from fastapi import FastAPI, Request, Form, Depends
+from fastapi import HTTPException
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
@@ -67,7 +69,7 @@ async def transportation_planner(request: Request):
         location_data = {
             "id": location.id,
             "index": location.index,
-            "villages": location.villages,
+            "villages": location.address,
 
         }
         transportation_location_list.append(location_data)
@@ -614,6 +616,29 @@ async def save_location(
         db.close()
 
         return {"message": "Transporation Location data updated successfully"}
+    
+
+
+
+
+@app.post("/fetch_locations/")
+async def fetch_locations(selected_ids: list[int], db: Session = Depends(get_db)):
+    try:
+        # Query the database for locations based on IDs
+        locations = db.query(TransportationLocation).filter(TransportationLocation.id.in_(selected_ids)).all()
+        
+        # Convert locations to JSON format
+        location_data = []
+        for location in locations:
+            location_data.append({
+                "id": location.id,
+                "villages": location.villages,
+                "address": location.address
+            })
+        
+        return JSONResponse(content=location_data)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching locations: {e}")
 
 
 

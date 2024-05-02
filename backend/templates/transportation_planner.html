@@ -1,5 +1,3 @@
-@ -1,290 +1,286 @@
-
 
 <!DOCTYPE html>
 <html>
@@ -204,12 +202,13 @@
         <div id="directionsItinerary"></div>
 
         <!-- New div elements to display start and end locations -->
-        <!-- <div id="startLocationInfo">Start Location: </div>
-        <div id="endLocationInfo">End Location: </div> -->
+        <div id="startLocationInfo">Start Location: </div>
+        <div id="endLocationInfo">End Location: </div>
     </div>
 
     <div id="myMap"></div>
 
+    <div>
     <div class="tableContainer">
       <section class="section dashboard">
         <div class="container-lg-10 mt-4">
@@ -287,16 +286,30 @@
                     <td class="location-info" data-column="location_number">
                       {{ location.index }}
                     </td>
-                    <td class="location-info" data-column="location_type">
+                    <td class="location-info" data-column="location_type" name="locationsvillage">
                       {{ location.villages }}
                     </td>
                   </tr>
                   {% endfor %}
                 </tbody>
               </table>
+
             </div>
           </div>
         </div>
+      </section>
+      <div>
+        <button
+                  type="button"
+                  class="btn btn-success"
+                  id="saveBtn"
+                >
+                  Submit
+        </button>
+      </div>
+      </div>
+
+      
 
         <!-- Pop-up Modal -->
         <div id="locationModal" class="modal">
@@ -306,47 +319,125 @@
           </div>
         </div>
       </section>
+      
     </div>
 
     
     <script type='text/javascript' src='https://code.jquery.com/jquery-3.6.4.min.js'></script>
     <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AqesDSP1QCJfuPJJ0PeaaRPGCFr2gou-EVTJEgM5_d_aNCw80OGn1BfVXAZRqvWk' async defer></script>
   
-    <script type='text/javascript'>
+    <!-- <script type='text/javascript'>
+
+    const selectedIds = [];
+                document.addEventListener("DOMContentLoaded", function () {
+                  const updateLink = document.querySelector("#saveBtn");
+                  updateLink.addEventListener("click", function (event) {
+                    event.preventDefault(); // Prevent the default action (following the link)
+
+                    const selectedCheckboxes = document.querySelectorAll(
+                      'input[name="selectedEquipment"]:checked'
+                    );
+
+                    
+
+                    selectedCheckboxes.forEach(function (checkbox) {
+                      selectedIds.push(checkbox.value);
+                    });
+
+                    selectedCheckboxes.forEach(function (checkbox) {
+                      checkbox.checked = false;
+
+            
+                    });
+
+                    GetMap();
+                  });
+                });
+    
         var map;
         var directionsManager;
 
-        function GetMap() {
+        function GetMap()
+        {
             map = new Microsoft.Maps.Map('#myMap', {});
 
-            // Load the directions module.
+            //Load the directions module.
             Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
-                // Create an instance of the directions manager.
+                //Create an instance of the directions manager.
                 directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
 
-                // Specify where to display the route instructions.
+                //Create waypoints to route between.
+
+                selectedIds.forEach(function (id) {
+                  // Perform action for each selected ID (e.g., save to database, update UI, etc.)
+                  console.log("Processing ID:", id);
+                  // You can perform your save/update logic here for each selected ID
+                  var seattleWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'madurai' });
+                directionsManager.addWaypoint(seattleWaypoint);
+
+                var seattleWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'dindugal' });
+                directionsManager.addWaypoint(seattleWaypoint);
+
+                //Specify the element in which the itinerary will be rendered.
                 directionsManager.setRenderOptions({ itineraryContainer: '#directionsItinerary' });
 
-                // Specify the where to display the input panel
-                directionsManager.showInputPanel('directionsPanel');
-
-                // Add event handler for when directions are calculated.
-                Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', function (args) {
-                    // Get the start and end locations.
-                    var startLocation = directionsManager.getRouteResult().routes[0].routeLegs[0].actualStart.displayAddress;
-                    var endLocation = directionsManager.getRouteResult().routes[0].routeLegs[0].actualEnd.displayAddress;
-
-                    // Log the coordinates to the console.
-                    geocodeLocation(startLocation, 'Start');
-                    geocodeLocation(endLocation, 'End');
+                //Calculate directions.
+                directionsManager.calculateDirections();
                 });
+                
+
+                var workWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'chennai' });
+                directionsManager.addWaypoint(workWaypoint);
+
+                var workWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'kanyakumari' });
+                directionsManager.addWaypoint(workWaypoint);
+
+
+                //Specify the element in which the itinerary will be rendered.
+                directionsManager.setRenderOptions({ itineraryContainer: '#directionsItinerary' });
+
+                //Calculate directions.
+                directionsManager.calculateDirections();
+
+
+                     //Create an instance of the directions manager.
+                directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+
+                //Create waypoints to route between.
+                var seattleWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'kodaikanal' });
+                directionsManager.addWaypoint(seattleWaypoint);
+
+                var workWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'ooty' });
+                directionsManager.addWaypoint(workWaypoint);
+
+                var workWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'theni' });
+                directionsManager.addWaypoint(workWaypoint);
+
+
+                //Specify the element in which the itinerary will be rendered.
+                directionsManager.setRenderOptions({ itineraryContainer: '#directionsItinerary' });
+
+                //Calculate directions.
+                directionsManager.calculateDirections();
+
+
+                Microsoft.Maps.loadModule('Microsoft.Maps.Traffic', function () {
+            //Create an instance of the traffic manager and bind to map.
+            trafficManager = new Microsoft.Maps.Traffic.TrafficManager(map);
+
+            //Display the traffic data.
+            trafficManager.show();
+            });
+
+
             });
         }
-
+        
         function updateLocationInfo(elementId, info) {
             // Update the HTML with location information.
             var infoDiv = document.getElementById(elementId);
             infoDiv.innerHTML = info;
+            
         }
 
         function geocodeLocation(location, type) {
@@ -360,7 +451,6 @@
                 success: function (data) {
                     // Extract coordinates from the response.
                     var coordinates = data.resourceSets[0].resources[0].point.coordinates;
-
                     // Use the obtained coordinates for further processing.
                     console.log(type + ' Location - Latitude: ' + coordinates[0] + ', Longitude: ' + coordinates[1]);
 
@@ -372,29 +462,90 @@
                 }
             });
         }
-    </script>
-    <script>
+    </script> -->
+       
+    <script type='text/javascript'>
+      var selectedIds = [];
+      var map;
+      var directionsManager;
+      var selectedVillages = [];
+  
       document.addEventListener("DOMContentLoaded", function () {
-        const updateLink = document.querySelector("#SubmitBtn");
-        updateLink.addEventListener("click", function (event) {
-          event.preventDefault(); // Prevent the default action (following the link)
-
-          const selectedCheckboxes = document.querySelectorAll(
-            'input[name="selectedEquipment"]:checked'
-          );
-          if (selectedCheckboxes.length === 0) {
+          const updateLink = document.querySelector("#saveBtn");
+          updateLink.addEventListener("click", function (event) {
+              event.preventDefault(); // Prevent the default action (following the link)
+              
+          
+          
+              const selectedCheckboxes = document.querySelectorAll('input[name="selectedlocation"]:checked');
+              const selectedEquipments = document.querySelectorAll('input[name="selectedEquipment"]:checked');
+          if (selectedEquipments.length === 0) {
             alert("Please select at least one equipment to update.");
-          } else if (selectedCheckboxes.length > 1) {
-            alert("You can update only one equipment/row of data at a time.");
-          } else {
-            const selectedId = selectedCheckboxes[0].value;
-            const updateUrl = `/update_equipment/${selectedId}`;
-            window.location.href = updateUrl; // Redirect to the update page with selected ID
-          }
+          } 
+        
+        // Array to store villages of selected locations
+        
+        // var selectedVillages = [];
+        // Loop through each checked checkbox and get its corresponding village value
+        selectedCheckboxes.forEach(function (checkbox) {
+            const row = checkbox.closest('tr'); // Find the parent <tr> element
+            const villageCell = row.querySelector('[data-column="location_type"]'); // Find the cell with data-column="location_type"
+            
+            if (villageCell) {
+                const village = villageCell.innerText; // Get the village text
+                selectedVillages.push(village); // Add village to selectedVillages array
+            }
         });
+        
+        // Do something with selectedVillages array
+        console.log("Selected Villages:", selectedVillages);
+        
+        // Example: Join villages into a string separated by commas
+        const villagesString = selectedVillages.join(", ");
+        console.log("Villages String:", villagesString);
+  
+              // selectedIds = []; // Clear the array before adding new values
+              // // console.log(selectedCheckboxes)
+              // selectedCheckboxes.forEach(function (checkbox) {
+                
+                  selectedCheckboxes.checked = false; // Uncheck the checkbox
+              
+  
+              GetMap();
+          });
       });
-    </script>
-        <!-- Vendor JS Files -->
+  
+      function GetMap() {
+          map = new Microsoft.Maps.Map('#myMap', {});
+  
+          //Load the directions module.
+          Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+              //Create an instance of the directions manager.
+              directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+  
+              //Create waypoints to route between.
+
+              let i = 0;
+
+              selectedVillages.forEach(function (village) {
+                  console.log("Processing ID:", village);
+                  var waypoint = new Microsoft.Maps.Directions.Waypoint({ address: village });
+                  directionsManager.addWaypoint(waypoint);
+              });
+  
+              //Specify the element in which the itinerary will be rendered.
+              directionsManager.setRenderOptions({ itineraryContainer: '#directionsItinerary' });
+  
+              //Calculate directions.
+              directionsManager.calculateDirections();
+              // var selectedVillages = [];
+          });
+      }
+  </script>
+  
+    
+    
+    <!-- Vendor JS Files -->
         <script src="../static/assets/vendor/apexcharts/apexcharts.min.js"></script>
         <script src="../static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="../static/assets/vendor/chart.js/chart.umd.js"></script>
@@ -403,8 +554,6 @@
         <script src="../static/assets/vendor/simple-datatables/simple-datatables.js"></script>
         <script src="../static/assets/vendor/tinymce/tinymce.min.js"></script>
         <script src="../static/assets/vendor/php-email-form/validate.js"></script>
-        <script src="../static/assets/js/main.js">
-
-        </script>
+        <script src="../static/assets/js/main.js"></script>
 </body>
 </html>

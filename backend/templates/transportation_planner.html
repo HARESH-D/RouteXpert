@@ -540,6 +540,13 @@
               directionsManager.calculateDirections();
               // var selectedVillages = [];
           });
+          Microsoft.Maps.loadModule('Microsoft.Maps.Traffic', function () {
+            //Create an instance of the traffic manager and bind to map.
+            trafficManager = new Microsoft.Maps.Traffic.TrafficManager(map);
+
+            //Display the traffic data.
+            trafficManager.show();
+        });
       }
   </script>
   

@@ -4537,3 +4537,17 @@ Vanjipatti, Tamil Nadu 625101 to Vellalore, Tamil Nadu 625109 : 197.872
 Vanjipatti, Tamil Nadu 625101 to Melavalasai, Tamil Nadu 625109 : 37.161
 Vanjipatti, Tamil Nadu 625101 to Thanaiyamangalam, Tamil Nadu 625109 : 28.459
 Vanjipatti, Tamil Nadu 625101 to Muthusamypatti, Kayampatti, Tamil Nadu 625108 : 17.897
+Kanniyampatti, Tamil Nadu 625529 to A.Pudupatti, Pottulupatti, Tamil Nadu 625529 : Error
+Kanniyampatti, Tamil Nadu 625529 to Kattakaruppanpatti, Tamil Nadu : 19.417
+Kanniyampatti, Tamil Nadu 625529 to Uchapatti, Tamil Nadu 625529 : Error
+Kanniyampatti, Tamil Nadu 625529 to Ariyapatti, Tamil Nadu 625529 : Error
+Kanniyampatti, Tamil Nadu 625529 to 
+ : Error
+Kanniyampatti, Tamil Nadu 625529 to Puthur, Sikkampatti, Tamil Nadu 625532 : Error
+Kanniyampatti, Tamil Nadu 625529 to Kuppanampatti, Tamil Nadu : 205.333
+Kanniyampatti, Tamil Nadu 625529 to Valandur, Tamil Nadu : 21.433
+Kanniyampatti, Tamil Nadu 625529 to Chellampatty, Tamil Nadu : 205.333
+Kanniyampatti, Tamil Nadu 625529 to Kannanur, Tamil Nadu 625514 : 22.797
+Kanniyampatti, Tamil Nadu 625529 to Checkanurani, Tamil Nadu 625514 : 23.787
+Kanniyampatti, Tamil Nadu 625529 to Vadapalanji, Tamil Nadu : 29.287
+Kanniyampatti, Tamil Nadu 625529 to Nagamalai Puthukottai, Tamil Nadu 625019 : 37.981

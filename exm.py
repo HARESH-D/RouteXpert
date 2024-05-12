@@ -25,6 +25,7 @@ def calculate_distances(villages: List[str]):
                     )
                     response.raise_for_status()
                     data = response.json()
+                    print(data)
                     distance = data["resourceSets"][0]["resources"][0]["travelDistance"]
                     matrix[origin][destination] = distance
                 except httpx.HTTPStatusError as e:

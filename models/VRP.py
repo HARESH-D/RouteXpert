@@ -41,9 +41,8 @@ vehicles_initial_loc = [(20.5937, 78.9629) for i in range(num_vehicles)]
 
 if num_vehicles != len(vehicle_max_load):
     print("Error vehicle_max_load !!")
-    
-    
-    
+
+      
 ########################### Time Matix ###########################
 
 D1 = np.load("D1.npy").T        #D1 - vehicle/warehouse location to villages
@@ -51,13 +50,7 @@ D2 = np.load("D2.npy")          #D2[village1] to [village2]
 D3 = D1                         #D3[village][depot]
 
 
-
-
 #################################################################
-
-
-
-
 
 
 def plot_(plot):
@@ -85,9 +78,6 @@ gamma = 0.09  # Discount factor
 alpha = 0.9  # Learning rate
 num_episodes = 500
 plot=[]
-
-
-
 
 
 

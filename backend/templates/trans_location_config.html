@@ -206,6 +206,7 @@
                     <th>Select</th>
                     <th>Village ID</th>
                     <th>Village</th>
+                    <th>Demand of Products</th>
                     <th>Address</th>
                   </tr>
                 </thead>
@@ -226,6 +227,10 @@
                     <td class="location-info" data-column="location_type">
                       {{ location.villages }}
                     </td>
+                    <td class="location-info" data-column="location_demand">
+                      {{ location.location_demand}}
+                    </td>
+
                     <td class="location-info" data-column="license_number">
                       {{ location.address }}
                     </td>

@@ -9,6 +9,7 @@ class Warehouse(Base):
     id = Column(Integer, primary_key=True, index=True)
     warehouse_user_name = Column(String)
     warehouse_name = Column(String)
+    warehouse_prod_types = Column(String)
     address_lane_1 = Column(String)
     address_lane_2 = Column(String)
     city = Column(String)
@@ -37,6 +38,7 @@ class TransportationLocation(Base):
     id = Column(Integer, primary_key=True, index=True)
     index = Column(String)
     villages = Column(String)
+    location_demand = Column(String)
     address = Column(String)
 
 class InventoryStatus(Base):

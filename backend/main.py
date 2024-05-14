@@ -69,6 +69,7 @@ async def transportation_planner(request: Request):
         location_data = {
             "id": location.id,
             "index": location.index,
+            "location_demand": location.location_demand,
             "villages": location.address,
 
         }
@@ -88,6 +89,7 @@ async def warehouse_config(request: Request):
             "id": warehouse.id,
             "warehouse_user_name": warehouse.warehouse_user_name,
             "warehouse_name": warehouse.warehouse_name,
+            "warehouse_prod_types": warehouse.warehouse_prod_types,
             "address_lane_1": warehouse.address_lane_1,
             "address_lane_2": warehouse.address_lane_2,
             "state": warehouse.state,
@@ -118,6 +120,7 @@ async def update_warehouse(request: Request, id: str):
             "id": warehouse.id,
             "warehouse_user_name": warehouse.warehouse_user_name,
             "warehouse_name": warehouse.warehouse_name,
+            "warehouse_prod_types": warehouse.warehouse_prod_types,
             "address_lane_1": warehouse.address_lane_1,
             "address_lane_2": warehouse.address_lane_2,
             "state": warehouse.state,
@@ -135,6 +138,7 @@ async def update_warehouse(request: Request, id: str):
         "id": warehouse.id,
         "warehouse_user_name": warehouse.warehouse_user_name,
         "warehouse_name": warehouse.warehouse_name,
+        "warehouse_prod_types": warehouse.warehouse_prod_types,
         "address_lane_1": warehouse.address_lane_1,
         "address_lane_2": warehouse.address_lane_2,
         "state": warehouse.state,
@@ -161,6 +165,7 @@ async def delete_warehouse(request: Request, id: str):
             "id": warehouse.id,
             "warehouse_user_name": warehouse.warehouse_user_name,
             "warehouse_name": warehouse.warehouse_name,
+            "warehouse_prod_types": warehouse.warehouse_prod_types,
             "address_lane_1": warehouse.address_lane_1,
             "address_lane_2": warehouse.address_lane_2,
             "state": warehouse.state,
@@ -235,6 +240,7 @@ def update_warehouse_data(data, id):
 async def save_warehouse(
     warehouse_user_name: str = Form(...),
     warehouse_name: str = Form(...),
+    warehouse_prod_types: str = Form(...),
     address_lane_1: str = Form(...),
     address_lane_2: str = Form(...),
     state: str = Form(...),
@@ -248,6 +254,7 @@ async def save_warehouse(
     update_warehouse = {
     "warehouse_user_name": warehouse_user_name,
     "warehouse_name": warehouse_name,
+    "warehouse_prod_types": warehouse_prod_types,
     "address_lane_1": address_lane_1,
     "address_lane_2": address_lane_2,
     "state": state,
@@ -266,6 +273,7 @@ async def save_warehouse(
 async def save_warehouse(
     warehouse_user_name: str = Form(...),
     warehouse_name: str = Form(...),
+    warehouse_prod_types: str = Form(...),
     address_lane_1: str = Form(...),
     address_lane_2: str = Form(...),
     state: str = Form(...),
@@ -278,6 +286,7 @@ async def save_warehouse(
     new_warehouse = {
     "warehouse_user_name": warehouse_user_name,
     "warehouse_name": warehouse_name,
+    "warehouse_prod_types": warehouse_prod_types,
     "address_lane_1": address_lane_1,
     "address_lane_2": address_lane_2,
     "state": state,
@@ -294,6 +303,7 @@ async def save_warehouse(
 async def update_warehouse(
     warehouse_user_name: str = Form(...),
     warehouse_name: str = Form(...),
+    warehouse_prod_types: str = Form(...),
     address_lane_1: str = Form(...),
     address_lane_2: str = Form(...),
     state: str = Form(...),
@@ -306,6 +316,7 @@ async def update_warehouse(
     new_warehouse = {
     "warehouse_user_name": warehouse_user_name,
     "warehouse_name": warehouse_name,
+    "warehouse_prod_types": warehouse_prod_types,
     "address_lane_1": address_lane_1,
     "address_lane_2": address_lane_2,
     "state": state,
@@ -496,6 +507,7 @@ async def trans_location_config(request: Request):
             "id": location.id,
             "index": location.index,
             "villages": location.villages,
+            "location_demand": location.location_demand,
             "address": location.address,
         }
         transportation_location_list.append(location_data)
@@ -521,6 +533,7 @@ async def update_transport_equipment(request: Request, id: str):
             "id": equipment.id,
             "index": equipment.index,
             "villages": equipment.villages,
+            "location_demand": equipment.location_demand,
             "address": equipment.address,
             }
     equipment_list.append(location_data)
@@ -544,6 +557,7 @@ async def delete_location(request: Request, id: str):
             "id": equipment.id,
             "index": equipment.index,
             "villages": equipment.villages,
+            "location_demand": equipment.location_demand,
             "address": equipment.address,
         }
         equipment_list.append(equipment_data)
@@ -556,6 +570,7 @@ async def delete_location(request: Request, id: str):
 async def save_location(
     index: str = Form(...),
     villages: str = Form(...),
+    location_demand: str = Form(...),
     address: str = Form(...),
 ):
     # Process the received data as needed (e.g., save to the database)
@@ -563,6 +578,7 @@ async def save_location(
     location_data = {
             "index": index,
             "villages": villages,
+            "location_demand": location_demand,
             "address": address,
         }
 
@@ -578,6 +594,7 @@ async def save_location(
 async def save_location(
     index: str = Form(...),
     villages: str = Form(...),
+    location_demand: str = Form(...),
     address: str = Form(...),
 ):
     # Process the received data as needed (e.g., save to the database)
@@ -585,6 +602,7 @@ async def save_location(
     data = {
             "index": index,
             "villages": villages,
+            "location_demand": location_demand,
             "address": address,
         }
 
@@ -633,6 +651,7 @@ async def fetch_locations(selected_ids: list[int], db: Session = Depends(get_db)
             location_data.append({
                 "id": location.id,
                 "villages": location.villages,
+                "location_demand": location.location_demand,
                 "address": location.address
             })
         

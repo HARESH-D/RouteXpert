@@ -696,6 +696,11 @@ class TransportRequest(BaseModel):
 
 class TransportResponse(BaseModel):
     message: str 
+    routes: list
+
+
+
+# -------------------------------------------------------------------------------------------------------------------------
 
 @app.post("/transporatation_algorithm", response_model=TransportResponse)
 async def transportation_algorithm(request_data: TransportRequest, db: Session = Depends(get_db)):
@@ -1250,9 +1255,9 @@ async def transportation_algorithm(request_data: TransportRequest, db: Session =
 
     #-------------------------------------------------------------------------------------------------------------
 
-    result_message = "Transportation algorithm executed successfully."
+    result_message = "Transportation algorithm executed successfully ."
     
-    return {"message": result_message}
+    return {"message": result_message, "routes": routes}
 
 
 

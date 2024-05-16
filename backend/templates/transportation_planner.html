@@ -377,6 +377,7 @@
       var selectedVillages = [];
       var selectedEquip = [];
       var selectedwarehouses = [];
+      var routes;
   
       document.addEventListener("DOMContentLoaded", function () {
           const updateLink = document.querySelector("#saveBtn");
@@ -411,11 +412,11 @@
                     });
                     
                     // Do something with selectedVillages array
-                    console.log("Selected Villages:", selectedVillages);
+                    // console.log("Selected Villages:", selectedVillages);
                     
                     // Example: Join villages into a string separated by commas
                     const villagesString = selectedVillages.join(", ");
-                    console.log("Villages String:", villagesString);
+                    // console.log("Villages String:", villagesString);
 
 
                   selectedCheckboxes.checked = false; // Uncheck the checkbox
@@ -433,11 +434,11 @@
                     });
                     
                     // Do something with selectedVillages array
-                    console.log("selected Equip:", selectedEquip);
+                    // console.log("selected Equip:", selectedEquip);
                     
                     // Example: Join villages into a string separated by commas
                     const equipstring = selectedEquip.join(", ");
-                    console.log("selectedEquip string:", equipstring);
+                    // console.log("selectedEquip string:", equipstring);
 
 
                     selectedEquipments.checked = false; // Uncheck the checkbox
@@ -455,11 +456,11 @@
                     });
                     
                     // Do something with selectedVillages array
-                    console.log("selected warehouse:", selectedwarehouses);
+                    // console.log("selected warehouse:", selectedwarehouses);
                     
                     // Example: Join villages into a string separated by commas
                     const wh_string = selectedwarehouses.join(", ");
-                    console.log("selectedEquip string:", wh_string);
+                    // console.log("selectedEquip string:", wh_string);
 
 
                     selectedWarehouse.checked = false; // Uncheck the checkbox
@@ -477,18 +478,39 @@
 
             try {
               const response = await fetch("/transporatation_algorithm", {
-                method: "POST", // Use POST method for sending JSON data
+                method: "POST",
                 headers: {
                   "Content-Type": "application/json"
                 },
-                body: JSON.stringify(requestData) // Convert object to JSON string
+                body: JSON.stringify(requestData)
               });
 
               if (response.ok) {
                 const result = await response.json();
-                alert(result.message);
-          
-                window.location.href = "/transportation_planner"; // Redirect to desired page
+                // console.log("Result:", result);  // Log the entire result object
+                // console.log("Routes",result.routes);
+
+                // Check if 'routes' exists in the result object
+                if ('routes' in result) {
+                  routes = result.routes;
+                    console.log("Routes:", routes);
+                    alert(result.message);
+                    
+                    // Loop through routes here
+                    // for (let i = 0; i < routes.length; i++) {
+                    //   const innerRoute = routes[i];
+                    //   console.log(`Route ${i + 1}:`);
+                    //   for (let j = 0; j < innerRoute.length; j++) {
+                    //     const coordinates = innerRoute[j];
+                    //     console.log(`  Coordinate ${j + 1}: [${coordinates.join(', ')}]`);
+                    //     // You can access individual coordinates using coordinates[0] and coordinates[1]
+                    //   }
+                    // }
+                  
+                } else {
+                  console.error("Routes not found in the response.");
+                  // Handle the case when 'routes' data is missing
+                }
               } else {
                 throw new Error("Network response was not ok.");
               }
@@ -496,14 +518,10 @@
               console.error("Error:", error);
               alert("An error occurred. Please try again.");
             }
-  
 
-              
+              GetMap();
 
-
-                    GetMap();
-
-                      }}
+             }}
           });
       });
   
@@ -527,10 +545,42 @@
   
               //Specify the element in which the itinerary will be rendered.
               directionsManager.setRenderOptions({ itineraryContainer: '#directionsItinerary' });
-  
               //Calculate directions.
               directionsManager.calculateDirections();
-              // var selectedVillages = [];
+
+
+
+              // Loop through routes here
+              for (let i = 0; i < routes.length; i++) {
+                const innerRoute = routes[i];
+                console.log(`Route ${i + 1}:`);
+
+                for (let j = 0; j < innerRoute.length; j++) {
+                  const coordinates = innerRoute[j];
+                  var waypoint = new Microsoft.Maps.Directions.Waypoint({ 
+                      address: `Route ${i+1}`, 
+                      location: new Microsoft.Maps.Location(coordinates[0], coordinates[1]) 
+                  });
+                  directionsManager.addWaypoint(waypoint);
+                  console.log(`  Coordinate ${j + 1}: (${coordinates[0]}, ${coordinates[1]})`);
+                  // You can access individual coordinates using coordinates[0] and coordinates[1]
+                }
+                directionsManager.setRenderOptions({ itineraryContainer: '#directionsItinerary' });
+              //Calculate directions.
+              directionsManager.calculateDirections();
+              }
+
+
+
+
+
+
+
+
+
+
+
+
           });
           Microsoft.Maps.loadModule('Microsoft.Maps.Traffic', function () {
             //Create an instance of the traffic manager and bind to map.

@@ -54,6 +54,7 @@ async def transportation_planner(request: Request):
             "id": equipment.id,
             "equipment_number": equipment.equipment_number,
             "equipment_type": equipment.equipment_type,
+            "equipment_description": equipment.equipment_description,
         }
         equipment_list.append(equipment_data)
 
@@ -71,11 +72,24 @@ async def transportation_planner(request: Request):
             "index": location.index,
             "location_demand": location.location_demand,
             "villages": location.address,
+            
 
         }
         transportation_location_list.append(location_data)
 
-    return templates.TemplateResponse("transportation_planner.html", {"request": request, "location": transportation_location_list,"equipment": equipment_list})
+        
+    warehouses = db.query(Warehouse).all()
+    warehouse_list = []
+    for warehouse in warehouses:
+        warehouse_data = {
+            "id": warehouse.id,
+            "warehouse_name": warehouse.warehouse_name,
+            "warehouse_prod_types": warehouse.warehouse_prod_types,
+            "address_lane_2": warehouse.address_lane_2,
+        }
+        warehouse_list.append(warehouse_data)
+
+    return templates.TemplateResponse("transportation_planner.html", {"request": request, "location": transportation_location_list,"equipment": equipment_list, "warehouse": warehouse_list})
 
 
 
@@ -500,6 +514,7 @@ async def trans_location_config(request: Request):
     db = SessionLocal()
     # # Retrieve equipment data from the database
     transportation_location_records= db.query(TransportationLocation).all()
+
  
     
     for location in transportation_location_records:
@@ -509,6 +524,7 @@ async def trans_location_config(request: Request):
             "villages": location.villages,
             "location_demand": location.location_demand,
             "address": location.address,
+            # ""
         }
         transportation_location_list.append(location_data)
 
@@ -659,6 +675,25 @@ async def fetch_locations(selected_ids: list[int], db: Session = Depends(get_db)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching locations: {e}")
 
+
+class TransportRequest(BaseModel):
+    villages: List[str]
+    equipments: List[str]
+    warehouses: List[str]
+
+class TransportResponse(BaseModel):
+    message: str 
+
+# Step 3: Define route and request handling
+@app.post("/transporatation_algorithm", response_model=TransportResponse)
+async def transportation_algorithm(request_data: TransportRequest):
+    # Access data from request_data.villages, request_data.equipments, request_data.warehouses
+    # Perform your transportation algorithm logic here
+    
+    # Example response message
+    result_message = "Transportation algorithm executed successfully."
+    
+    return {"message": result_message}
 
 
 

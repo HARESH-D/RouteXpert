@@ -65,7 +65,7 @@
         }
 
         .directionsContainer {
-            width: 30%;
+            width: 35%;
             height: 50%;
             float: left;
             position: relative;
@@ -75,7 +75,7 @@
         }
 
         #myMap {
-            width: 70%;
+            width: 65%;
             height: 50%;
             float: right;
             position: relative;
@@ -84,7 +84,7 @@
         }
 
         .tableContainer {
-            width: 35%;
+            width: 32.5%;
             height: 50%;
             float: right;
             position: relative;
@@ -197,9 +197,9 @@
  
       <!-- <main id="main" class="main">   -->
 
-    <div class="directionsContainer">
+    <!-- <div class="directionsContainer">
         <div id="directionsPanel"></div>
-        <div id="directionsItinerary"></div>
+        <div id="directionsItinerary"></div> -->
 
         <!-- New div elements to display start and end locations -->
         <div id="startLocationInfo">Start Location: </div>
@@ -209,57 +209,8 @@
     <div id="myMap"></div>
 
     <div>
-    <div class="tableContainer">
-      <section class="section dashboard">
-        <div class="container-lg-10 mt-4">
-          <div class="card">
-            <div class="card-body">
-              <table class="table datatable table-bordered table-striped">
-                <thead class="thead-dark">
-                  <tr>
-                    <th>Select</th>
-                    <th>Equipment Number</th>
-                    <th>Equipment Type</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- Replace 'trans_equipment' with your data variable -->
-                  {% for equipment in equipment %}
-                  <tr>
-                    <td>
-                      <input
-                        type="checkbox"
-                        name="selectedEquipment"
-                        value="{{ equipment.id }}"
-                      />
-                    </td>
-                    <td class="equipment-info" data-column="equipment_number">
-                      {{ equipment.equipment_number }}
-                    </td>
-                    <td class="equipment-info" data-column="equipment_type">
-                      {{ equipment.equipment_type }}
-                    </td>
-
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- Pop-up Modal -->
-        <div id="equipmentModal" class="modal">
-          <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div id="modalContent"></div>
-          </div>
-        </div>
-      </section>
-      </div>
-
-
-    <div class="tableContainer">
+    
+    <div class="directionsContainer">
       <section class="section dashboard">
         <div class="container-lg-10 mt-4">
           <div class="card">
@@ -309,6 +260,98 @@
       </div>
       </div>
 
+
+      <div class="tableContainer">
+        <section class="section dashboard">
+          <div class="container-lg-10 mt-4">
+            <div class="card">
+              <div class="card-body">
+                <table class="table datatable table-bordered table-striped">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th>Select</th>
+                      <th>Equipment Number</th>
+                      <th>Equipment Type</th>
+                      <th>Equipment Capacity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Replace 'trans_equipment' with your data variable -->
+                    {% for equipment in equipment %}
+                    <tr>
+                      <td>
+                        <input
+                          type="checkbox"
+                          name="selectedEquipment"
+                          value="{{ equipment.id }}"
+                        />
+                      </td>
+                      <td class="equipment-info" data-column="equipment_number">
+                        {{ equipment.equipment_number }}
+                      </td>
+                      <td class="equipment-info" data-column="equipment_type">
+                        {{ equipment.equipment_type }}
+                      </td>
+                      <td class="equipment-info" data-column="description">
+                        {{ equipment.equipment_description }}
+                      </td>
+  
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Pop-up Modal -->
+          <div id="equipmentModal" class="modal">
+            <div class="modal-content">
+              <span class="close-modal">&times;</span>
+              <div id="modalContent"></div>
+            </div>
+          </div>
+        </section>
+        </div>
+
+      <div class="tableContainer">
+        <section class="section dashboard">
+          <div class="container-lg-6 mt-4">
+            <div class="card">
+              <div class="card-body">
+                <table class="table datatable table-bordered table-striped">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th>Select</th>
+                      <th>Warehouse Name</th>
+                      <th>Total types of Products</th>
+                      <th>Address Lane 2</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for warehouse in warehouse %}
+                    <tr>
+                      <td><input type="checkbox" name="selectedWarehouse" value="{{ warehouse.id }}"></td>
+                      <td class="warehouse-info" data-column="warehouse_name">{{ warehouse.warehouse_name }}</td>
+                      <td class="warehouse-info" data-column="warehouse_prod_types">{{ warehouse.warehouse_prod_types }}</td>
+                      <td class="warehouse-info" data-column="address_lane_2">{{ warehouse.address_lane_2 }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Pop-up Modal -->
+          <div id="equipmentModal" class="modal">
+            <div class="modal-content">
+              <span class="close-modal">&times;</span>
+              <div id="modalContent"></div>
+            </div>
+          </div>
+        </section>
+        </div>
       
 
         <!-- Pop-up Modal -->
@@ -324,194 +367,143 @@
 
     
     <script type='text/javascript' src='https://code.jquery.com/jquery-3.6.4.min.js'></script>
-    <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AqesDSP1QCJfuPJJ0PeaaRPGCFr2gou-EVTJEgM5_d_aNCw80OGn1BfVXAZRqvWk' async defer></script>
-  
-    <!-- <script type='text/javascript'>
+    <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AtS2Fs-Sm3fm-RPtqb9wDU5VB5cGImY_qIQXbd_Y-cojdSh_RCUDWRj8beBZRm-l' async defer></script>
 
-    const selectedIds = [];
-                document.addEventListener("DOMContentLoaded", function () {
-                  const updateLink = document.querySelector("#saveBtn");
-                  updateLink.addEventListener("click", function (event) {
-                    event.preventDefault(); // Prevent the default action (following the link)
-
-                    const selectedCheckboxes = document.querySelectorAll(
-                      'input[name="selectedEquipment"]:checked'
-                    );
-
-                    
-
-                    selectedCheckboxes.forEach(function (checkbox) {
-                      selectedIds.push(checkbox.value);
-                    });
-
-                    selectedCheckboxes.forEach(function (checkbox) {
-                      checkbox.checked = false;
-
-            
-                    });
-
-                    GetMap();
-                  });
-                });
-    
-        var map;
-        var directionsManager;
-
-        function GetMap()
-        {
-            map = new Microsoft.Maps.Map('#myMap', {});
-
-            //Load the directions module.
-            Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
-                //Create an instance of the directions manager.
-                directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
-
-                //Create waypoints to route between.
-
-                selectedIds.forEach(function (id) {
-                  // Perform action for each selected ID (e.g., save to database, update UI, etc.)
-                  console.log("Processing ID:", id);
-                  // You can perform your save/update logic here for each selected ID
-                  var seattleWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'madurai' });
-                directionsManager.addWaypoint(seattleWaypoint);
-
-                var seattleWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'dindugal' });
-                directionsManager.addWaypoint(seattleWaypoint);
-
-                //Specify the element in which the itinerary will be rendered.
-                directionsManager.setRenderOptions({ itineraryContainer: '#directionsItinerary' });
-
-                //Calculate directions.
-                directionsManager.calculateDirections();
-                });
-                
-
-                var workWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'chennai' });
-                directionsManager.addWaypoint(workWaypoint);
-
-                var workWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'kanyakumari' });
-                directionsManager.addWaypoint(workWaypoint);
-
-
-                //Specify the element in which the itinerary will be rendered.
-                directionsManager.setRenderOptions({ itineraryContainer: '#directionsItinerary' });
-
-                //Calculate directions.
-                directionsManager.calculateDirections();
-
-
-                     //Create an instance of the directions manager.
-                directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
-
-                //Create waypoints to route between.
-                var seattleWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'kodaikanal' });
-                directionsManager.addWaypoint(seattleWaypoint);
-
-                var workWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'ooty' });
-                directionsManager.addWaypoint(workWaypoint);
-
-                var workWaypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'theni' });
-                directionsManager.addWaypoint(workWaypoint);
-
-
-                //Specify the element in which the itinerary will be rendered.
-                directionsManager.setRenderOptions({ itineraryContainer: '#directionsItinerary' });
-
-                //Calculate directions.
-                directionsManager.calculateDirections();
-
-
-                Microsoft.Maps.loadModule('Microsoft.Maps.Traffic', function () {
-            //Create an instance of the traffic manager and bind to map.
-            trafficManager = new Microsoft.Maps.Traffic.TrafficManager(map);
-
-            //Display the traffic data.
-            trafficManager.show();
-            });
-
-
-            });
-        }
-        
-        function updateLocationInfo(elementId, info) {
-            // Update the HTML with location information.
-            var infoDiv = document.getElementById(elementId);
-            infoDiv.innerHTML = info;
-            
-        }
-
-        function geocodeLocation(location, type) {
-            // Use Bing Maps Location API to get the coordinates of the location.
-            var geocodeRequest = 'http://dev.virtualearth.net/REST/v1/Locations/' + encodeURIComponent(location) + '?key=AqesDSP1QCJfuPJJ0PeaaRPGCFr2gou-EVTJEgM5_d_aNCw80OGn1BfVXAZRqvWk';
-
-            // Make an AJAX request to the Bing Maps Location API.
-            $.ajax({
-                url: geocodeRequest,
-                dataType: 'json',
-                success: function (data) {
-                    // Extract coordinates from the response.
-                    var coordinates = data.resourceSets[0].resources[0].point.coordinates;
-                    // Use the obtained coordinates for further processing.
-                    console.log(type + ' Location - Latitude: ' + coordinates[0] + ', Longitude: ' + coordinates[1]);
-
-                    // Update the HTML with latitude and longitude information.
-                    updateLocationInfo(type.toLowerCase() + 'LocationInfo', type + ' Location - Latitude: ' + coordinates[0] + ', Longitude: ' + coordinates[1]);
-                },
-                error: function (error) {
-                    console.error('Error geocoding location: ' + error);
-                }
-            });
-        }
-    </script> -->
        
     <script type='text/javascript'>
       var selectedIds = [];
       var map;
       var directionsManager;
       var selectedVillages = [];
+      var selectedEquip = [];
+      var selectedwarehouses = [];
   
       document.addEventListener("DOMContentLoaded", function () {
           const updateLink = document.querySelector("#saveBtn");
-          updateLink.addEventListener("click", function (event) {
+          updateLink.addEventListener("click",async function (event) {
               event.preventDefault(); // Prevent the default action (following the link)
               
           
           
               const selectedCheckboxes = document.querySelectorAll('input[name="selectedlocation"]:checked');
               const selectedEquipments = document.querySelectorAll('input[name="selectedEquipment"]:checked');
+              const selectedWarehouse = document.querySelectorAll('input[name="selectedWarehouse"]:checked');
           if (selectedEquipments.length === 0) {
             alert("Please select at least one equipment to update.");
           } 
-        
-        // Array to store villages of selected locations
-        
-        // var selectedVillages = [];
-        // Loop through each checked checkbox and get its corresponding village value
-        selectedCheckboxes.forEach(function (checkbox) {
-            const row = checkbox.closest('tr'); // Find the parent <tr> element
-            const villageCell = row.querySelector('[data-column="location_type"]'); // Find the cell with data-column="location_type"
-            
-            if (villageCell) {
-                const village = villageCell.innerText; // Get the village text
-                selectedVillages.push(village); // Add village to selectedVillages array
+          else{
+
+            if(selectedWarehouse.length === 0 || selectedWarehouse.length > 1)
+            {
+              alert("Please select only one warehouse to update.");
             }
-        });
-        
-        // Do something with selectedVillages array
-        console.log("Selected Villages:", selectedVillages);
-        
-        // Example: Join villages into a string separated by commas
-        const villagesString = selectedVillages.join(", ");
-        console.log("Villages String:", villagesString);
-  
-              // selectedIds = []; // Clear the array before adding new values
-              // // console.log(selectedCheckboxes)
-              // selectedCheckboxes.forEach(function (checkbox) {
-                
+            else{
+                  
+              selectedCheckboxes.forEach(function (checkbox) 
+                    {
+                        const row = checkbox.closest('tr'); // Find the parent <tr> element
+                        const villageCell = row.querySelector('[data-column="location_type"]'); // Find the cell with data-column="location_type"
+                        
+                        if (villageCell) {
+                            const village = villageCell.innerText; // Get the village text
+                            selectedVillages.push(village); // Add village to selectedVillages array
+                        }
+                    });
+                    
+                    // Do something with selectedVillages array
+                    console.log("Selected Villages:", selectedVillages);
+                    
+                    // Example: Join villages into a string separated by commas
+                    const villagesString = selectedVillages.join(", ");
+                    console.log("Villages String:", villagesString);
+
+
                   selectedCheckboxes.checked = false; // Uncheck the checkbox
-              
+// ---------------------------------------------------------------------------
+
+                    selectedEquipments.forEach(function (checkbox) 
+                    {
+                        const row = checkbox.closest('tr'); // Find the parent <tr> element
+                        const equip = row.querySelector('[data-column="equipment_number"]'); // Find the cell with data-column="equipment_number"
+                        
+                        if (equip) {
+                            const equipment_number = equip.innerText; // Get the village text
+                            selectedEquip.push(equipment_number); // Add village to selectedVillages array
+                        }
+                    });
+                    
+                    // Do something with selectedVillages array
+                    console.log("selected Equip:", selectedEquip);
+                    
+                    // Example: Join villages into a string separated by commas
+                    const equipstring = selectedEquip.join(", ");
+                    console.log("selectedEquip string:", equipstring);
+
+
+                    selectedEquipments.checked = false; // Uncheck the checkbox
+// ------------------------------------------------------------------------------------------
+
+                    selectedWarehouse.forEach(function (checkbox) 
+                    {
+                        const row = checkbox.closest('tr'); // Find the parent <tr> element
+                        const wh = row.querySelector('[data-column="warehouse_name"]'); // Find the cell with data-column="equipment_number"
+                        
+                        if (wh) {
+                            const wh_name = wh.innerText; // Get the village text
+                            selectedwarehouses.push(wh_name); // Add village to selectedVillages array
+                        }
+                    });
+                    
+                    // Do something with selectedVillages array
+                    console.log("selected warehouse:", selectedwarehouses);
+                    
+                    // Example: Join villages into a string separated by commas
+                    const wh_string = selectedwarehouses.join(", ");
+                    console.log("selectedEquip string:", wh_string);
+
+
+                    selectedWarehouse.checked = false; // Uncheck the checkbox
+
+
+// --------------------------------------------------------------------------------------------
+
+
+           // Create an object to hold all the data
+            const requestData = {
+              villages: selectedVillages,
+              equipments: selectedEquip,
+              warehouses: selectedwarehouses
+            };
+
+            try {
+              const response = await fetch("/transporatation_algorithm", {
+                method: "POST", // Use POST method for sending JSON data
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestData) // Convert object to JSON string
+              });
+
+              if (response.ok) {
+                const result = await response.json();
+                alert(result.message);
+          
+                window.location.href = "/transportation_planner"; // Redirect to desired page
+              } else {
+                throw new Error("Network response was not ok.");
+              }
+            } catch (error) {
+              console.error("Error:", error);
+              alert("An error occurred. Please try again.");
+            }
   
-              GetMap();
+
+              
+
+
+                    GetMap();
+
+                      }}
           });
       });
   

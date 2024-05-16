@@ -29,6 +29,7 @@ class TransportationEquipment(Base):
     driver_license_number = Column(String)
     equipment_description = Column(String)
     
+    
 
     
 class TransportationLocation(Base):

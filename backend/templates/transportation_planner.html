@@ -75,7 +75,7 @@
         }
 
         #myMap {
-            width: 65%;
+            width: 100%;
             height: 50%;
             float: right;
             position: relative;
@@ -84,12 +84,12 @@
         }
 
         .tableContainer {
-            width: 32.5%;
+            width: 33.3333333%;
             height: 50%;
-            float: right;
+            float: left;
             position: relative;
             right: 0;
-            padding-left: 50px;
+            padding-left: 10px;
             background-color: rgb(255, 255, 255); /* Just for visualization */
         }
 
@@ -195,26 +195,16 @@
         ><i class="bi bi-arrow-up-short"></i
       ></a>
  
-      <!-- <main id="main" class="main">   -->
-
-    <!-- <div class="directionsContainer">
-        <div id="directionsPanel"></div>
-        <div id="directionsItinerary"></div> -->
-
-        <!-- New div elements to display start and end locations -->
-        <div id="startLocationInfo">Start Location: </div>
-        <div id="endLocationInfo">End Location: </div>
-    </div>
-
     <div id="myMap"></div>
 
     <div>
     
-    <div class="directionsContainer">
+    <div class="tableContainer">
       <section class="section dashboard">
-        <div class="container-lg-10 mt-4">
+        <div class="container-lg-10 mt-3">
           <div class="card">
             <div class="card-body">
+              <h5 class="card-title">Transportation Locations</h5>
               <table class="table datatable table-bordered table-striped">
                 <thead class="thead-dark">
                   <tr>
@@ -249,15 +239,7 @@
           </div>
         </div>
       </section>
-      <div>
-        <button
-                  type="button"
-                  class="btn btn-success"
-                  id="saveBtn"
-                >
-                  Submit
-        </button>
-      </div>
+      
       </div>
 
 
@@ -266,6 +248,7 @@
           <div class="container-lg-10 mt-4">
             <div class="card">
               <div class="card-body">
+                <h5 class="card-title">Transportation Vehicle</h5>
                 <table class="table datatable table-bordered table-striped">
                   <thead class="thead-dark">
                     <tr>
@@ -319,6 +302,7 @@
           <div class="container-lg-6 mt-4">
             <div class="card">
               <div class="card-body">
+                <h5 class="card-title">Warehouse (Depot)</h5>
                 <table class="table datatable table-bordered table-striped">
                   <thead class="thead-dark">
                     <tr>
@@ -341,6 +325,15 @@
                 </table>
               </div>
             </div>
+          </div>
+          <div>
+            <button
+                      type="button"
+                      class="btn btn-success"
+                      id="saveBtn"
+                    >
+                      Submit
+            </button>
           </div>
   
           <!-- Pop-up Modal -->

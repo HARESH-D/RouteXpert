@@ -58,7 +58,7 @@ async def transportation_planner(request: Request):
         }
         equipment_list.append(equipment_data)
 
-    print(equipment_list)
+    # print(equipment_list)
 
     transportation_location_list = []
     db = SessionLocal()
@@ -325,7 +325,7 @@ async def update_warehouse(
     zip: str = Form(...),
 ):
     
-    print(warehouse_user_name, warehouse_name, address_lane_1, address_lane_2, state, city, zip)
+    # print(warehouse_user_name, warehouse_name, address_lane_1, address_lane_2, state, city, zip)
     # Create a session
     new_warehouse = {
     "warehouse_user_name": warehouse_user_name,
@@ -339,7 +339,7 @@ async def update_warehouse(
 }
    
     # result = create_warehouse(new_warehouse)
-    print("update warehouse")
+    # print("update warehouse")
     # print(result)
     return {"message": "Warehouse data saved successfully"}
 
@@ -365,7 +365,7 @@ async def trans_equip_config(request: Request):
         }
         equipment_list.append(equipment_data)
 
-    print(equipment_list)
+    # print(equipment_list)
 
     return templates.TemplateResponse("trans_equip_config.html", {"request": request, "equipment": equipment_list})
 
@@ -402,6 +402,7 @@ async def update_transport_equipment(request: Request, id: str):
 async def delete_equipment(request: Request, id: str):
 
     print(id)
+
  
     db.query(TransportationEquipment).filter(TransportationEquipment.id == id).delete()
     db.commit()
@@ -684,13 +685,34 @@ class TransportRequest(BaseModel):
 class TransportResponse(BaseModel):
     message: str 
 
-# Step 3: Define route and request handling
 @app.post("/transporatation_algorithm", response_model=TransportResponse)
-async def transportation_algorithm(request_data: TransportRequest):
-    # Access data from request_data.villages, request_data.equipments, request_data.warehouses
-    # Perform your transportation algorithm logic here
-    
-    # Example response message
+async def transportation_algorithm(request_data: TransportRequest, db: Session = Depends(get_db)):
+    # Extract village names from the provided address strings
+    village_names_list = []
+    for address in request_data.villages:
+        # Assuming village name is the first part before the first comma in each address
+        village_name = address.split(",")[0].strip()
+        village_names_list.append(village_name)
+
+    print(village_names_list)
+
+    # Query locations where any village matches the list of village names
+    locations = db.query(TransportationLocation).filter(
+        TransportationLocation.villages.in_(village_names_list)
+    ).all()
+
+    # Convert locations to JSON format
+    location_data = []
+    for location in locations:
+        location_data.append({
+            "id": location.id,
+            "villages": location.villages,
+            "location_demand": location.location_demand,
+            "address": location.address
+        })
+
+    print("Location data",location_data)
+
     result_message = "Transportation algorithm executed successfully."
     
     return {"message": result_message}

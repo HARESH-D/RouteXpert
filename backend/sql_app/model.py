@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float ,ARRAY
 from .database import Base
 
 
@@ -50,6 +50,18 @@ class InventoryStatus(Base):
     invsts = Column(String)
     inv_desc = Column(String)
     inv_shortdesc = Column(String)
+
+
+class Driver(Base):
+
+    __tablename__ = "Driver"
+
+    id = Column(Integer, primary_key=True, index=True)
+    equipment_number = Column(String)
+    equipment_type = Column(String)
+    driver_name = Column(String)
+    route = Column(String)
+
 
 
     

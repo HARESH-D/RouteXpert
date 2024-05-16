@@ -1,3 +1,4 @@
+from sql_app.model import Warehouse, TransportationEquipment, TransportationLocation, Driver
 from fastapi import FastAPI, Request, Form, Depends
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
@@ -9,7 +10,6 @@ import httpx
 from typing import List
 from fastapi.encoders import jsonable_encoder
 from sql_app.database import SessionLocal, engine
-from sql_app.model import Warehouse, TransportationEquipment, TransportationLocation
 from sql_app import model
 from pydantic import BaseModel
 import pandas as pd
@@ -739,6 +739,8 @@ async def transportation_algorithm(request_data: TransportRequest, db: Session =
         TransportationEquipment.equipment_number.in_(equipment_list)
     ).all()
 
+
+    equipment_xx = equipment
     equipment_list = []
     for equipment in equipment:
         equipment_data = {
@@ -1217,6 +1219,26 @@ async def transportation_algorithm(request_data: TransportRequest, db: Session =
     routes = vehicle_visited_village
     print("\n")
     print("Final Route",routes)
+
+
+    driver_list = []
+    i = 0
+    for e in equipment_xx:
+        new_driver = {
+            "equipment_number": e.equipment_number,
+            "equipment_type": e.equipment_type,
+            "driver_name": e.driver_name,
+            "route": str(routes[i])
+        }
+        i+=1
+        driver_list.append(new_driver)
+    print("-------------------------------\n\n")    
+    print(driver_list)
+    print("\n\n------------------------------")
+
+    new_drivers = Driver(**new_driver)
+    db.add(new_drivers)
+    db.commit()
 
 
     #! Comment out below to visualize

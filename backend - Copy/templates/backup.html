@@ -1,0 +1,220 @@
+
+       
+    <script type='text/javascript'>
+        var selectedIds = [];
+        var map;
+        var directionsManager;
+        var selectedVillages = [];
+        var selectedEquip = [];
+        var selectedwarehouses = [];
+        var routes;
+    
+        document.addEventListener("DOMContentLoaded", function () {
+            const updateLink = document.querySelector("#saveBtn");
+            updateLink.addEventListener("click",async function (event) {
+                event.preventDefault(); // Prevent the default action (following the link)
+                
+            
+            
+                const selectedCheckboxes = document.querySelectorAll('input[name="selectedlocation"]:checked');
+                const selectedEquipments = document.querySelectorAll('input[name="selectedEquipment"]:checked');
+                const selectedWarehouse = document.querySelectorAll('input[name="selectedWarehouse"]:checked');
+            if (selectedEquipments.length === 0) {
+              alert("Please select at least one equipment to update.");
+            } 
+            else{
+  
+              if(selectedWarehouse.length === 0 || selectedWarehouse.length > 1)
+              {
+                alert("Please select only one warehouse to update.");
+              }
+              else{
+                    
+                selectedCheckboxes.forEach(function (checkbox) 
+                      {
+                          const row = checkbox.closest('tr'); // Find the parent <tr> element
+                          const villageCell = row.querySelector('[data-column="location_type"]'); // Find the cell with data-column="location_type"
+                          
+                          if (villageCell) {
+                              const village = villageCell.innerText; // Get the village text
+                              selectedVillages.push(village); // Add village to selectedVillages array
+                          }
+                      });
+                      
+                      // Do something with selectedVillages array
+                      // console.log("Selected Villages:", selectedVillages);
+                      
+                      // Example: Join villages into a string separated by commas
+                      const villagesString = selectedVillages.join(", ");
+                      // console.log("Villages String:", villagesString);
+  
+  
+                    selectedCheckboxes.checked = false; // Uncheck the checkbox
+  // ---------------------------------------------------------------------------
+  
+                      selectedEquipments.forEach(function (checkbox) 
+                      {
+                          const row = checkbox.closest('tr'); // Find the parent <tr> element
+                          const equip = row.querySelector('[data-column="equipment_number"]'); // Find the cell with data-column="equipment_number"
+                          
+                          if (equip) {
+                              const equipment_number = equip.innerText; // Get the village text
+                              selectedEquip.push(equipment_number); // Add village to selectedVillages array
+                          }
+                      });
+                      
+                      // Do something with selectedVillages array
+                      // console.log("selected Equip:", selectedEquip);
+                      
+                      // Example: Join villages into a string separated by commas
+                      const equipstring = selectedEquip.join(", ");
+                      // console.log("selectedEquip string:", equipstring);
+  
+  
+                      selectedEquipments.checked = false; // Uncheck the checkbox
+  // ------------------------------------------------------------------------------------------
+  
+                      selectedWarehouse.forEach(function (checkbox) 
+                      {
+                          const row = checkbox.closest('tr'); // Find the parent <tr> element
+                          const wh = row.querySelector('[data-column="warehouse_name"]'); // Find the cell with data-column="equipment_number"
+                          
+                          if (wh) {
+                              const wh_name = wh.innerText; // Get the village text
+                              selectedwarehouses.push(wh_name); // Add village to selectedVillages array
+                          }
+                      });
+                      
+                      // Do something with selectedVillages array
+                      // console.log("selected warehouse:", selectedwarehouses);
+                      
+                      // Example: Join villages into a string separated by commas
+                      const wh_string = selectedwarehouses.join(", ");
+                      // console.log("selectedEquip string:", wh_string);
+  
+  
+                      selectedWarehouse.checked = false; // Uncheck the checkbox
+  
+  
+  // --------------------------------------------------------------------------------------------
+  
+  
+             // Create an object to hold all the data
+              const requestData = {
+                villages: selectedVillages,
+                equipments: selectedEquip,
+                warehouses: selectedwarehouses
+              };
+  
+              try {
+                const response = await fetch("/transporatation_algorithm", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify(requestData)
+                });
+  
+                if (response.ok) {
+                  const result = await response.json();
+                  // console.log("Result:", result);  // Log the entire result object
+                  // console.log("Routes",result.routes);
+  
+                  // Check if 'routes' exists in the result object
+                  if ('routes' in result) {
+                    routes = result.routes;
+                      console.log("Routes:", routes);
+                      alert(result.message);
+                      
+                      // Loop through routes here
+                      // for (let i = 0; i < routes.length; i++) {
+                      //   const innerRoute = routes[i];
+                      //   console.log(`Route ${i + 1}:`);
+                      //   for (let j = 0; j < innerRoute.length; j++) {
+                      //     const coordinates = innerRoute[j];
+                      //     console.log(`  Coordinate ${j + 1}: [${coordinates.join(', ')}]`);
+                      //     // You can access individual coordinates using coordinates[0] and coordinates[1]
+                      //   }
+                      // }
+                    
+                  } else {
+                    console.error("Routes not found in the response.");
+                    // Handle the case when 'routes' data is missing
+                  }
+                } else {
+                  throw new Error("Network response was not ok.");
+                }
+              } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+              }
+  
+                GetMap();
+  
+               }}
+            });
+        });
+    
+        function GetMap() {
+            map = new Microsoft.Maps.Map('#myMap', {});
+    
+            //Load the directions module.
+            Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+                //Create an instance of the directions manager.
+                directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+    
+                //Create waypoints to route between.
+  
+                let i = 0;
+  
+                // selectedVillages.forEach(function (village) {
+                //     console.log("Processing ID:", village);
+                //     var waypoint = new Microsoft.Maps.Directions.Waypoint({ address: village });
+                //     directionsManager.addWaypoint(waypoint);
+                // });
+    
+                // //Specify the element in which the itinerary will be rendered.
+                // directionsManager.setRenderOptions({ itineraryContainer: '#directionsItinerary' });
+                // //Calculate directions.
+                // directionsManager.calculateDirections();
+  
+  
+  
+                // Loop through routes here
+                for (let i = 0; i < routes.length; i++) {
+                  const innerRoute = routes[i];
+                  console.log(`Route ${i + 1}:`);
+  
+                  for (let j = 0; j < innerRoute.length; j++) {
+                    const coordinates = innerRoute[j];
+                    var waypoint = new Microsoft.Maps.Directions.Waypoint({ address: 'Work', location: new Microsoft.Maps.Location(${coordinates[0]}, ${coordinates[1]}) });
+                    directionsManager.addWaypoint(waypoint);
+                    console.log(`  Coordinate ${j + 1}: (${coordinates[0]}, ${coordinates[1]})`);
+                    // You can access individual coordinates using coordinates[0] and coordinates[1]
+                  }
+                  directionsManager.setRenderOptions({ itineraryContainer: '#directionsItinerary' });
+                //Calculate directions.
+                directionsManager.calculateDirections();
+                }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+            });
+            Microsoft.Maps.loadModule('Microsoft.Maps.Traffic', function () {
+              //Create an instance of the traffic manager and bind to map.
+              trafficManager = new Microsoft.Maps.Traffic.TrafficManager(map);
+  
+              //Display the traffic data.
+              trafficManager.show();
+          });
+        }
+    </script>

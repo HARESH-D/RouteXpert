@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>Dashboard</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href="../static/assets/img/favicon.png" rel="icon" />
+    <link
+      href="../static/assets/img/apple-touch-icon.png"
+      rel="apple-touch-icon"
+    />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="../static/assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../static/assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../static/assets/vendor/boxicons/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../static/assets/vendor/quill/quill.snow.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../static/assets/vendor/quill/quill.bubble.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../static/assets/vendor/remixicon/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../static/assets/vendor/simple-datatables/style.css"
+      rel="stylesheet"
+    />
+
+    <!-- Template Main CSS File -->
+    <link href="../static/assets/css/style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
+      <div class="d-flex align-items-center justify-content-between">
+        <a href="/" class="logo d-flex align-items-center">
+          <img src="../static/assets/img/logo.png" alt="" />
+          <span class="d-none d-lg-block">RoutExpert</span>
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+      </div>
+      <!-- End Logo -->
+    </header>
+    <!-- End Header -->
+
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+      <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/">
+            <i class="bi bi-grid"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <!-- End Dashboard Nav -->
+
+        <li class="nav-item">
+          <a
+            class="nav-link collapsed"
+            data-bs-target="#components-nav"
+            data-bs-toggle="collapse"
+            href="#"
+          >
+            <i class="bi bi-menu-button-wide"></i><span>Configuration</span
+            ><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul
+            id="components-nav"
+            class="nav-content collapse"
+            data-bs-parent="#sidebar-nav"
+          >
+            <li>
+              <a href="warehouse_config">
+                <i class="bi bi-circle"></i><span>Warehouse</span>
+              </a>
+            </li>
+            <li>
+              <a href="trans_equip_config">
+                <i class="bi bi-circle"></i
+                ><span>Transportation Equipment</span>
+              </a>
+            </li>
+            <li>
+              <a href="trans_location_config">
+                <i class="bi bi-circle"></i
+                ><span>Transportation locations</span>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+        <!-- End Components Nav -->
+
+        <li class="nav-item">
+          <a
+            class="nav-link collapsed"
+            data-bs-target="#forms-nav"
+            data-bs-toggle="collapse"
+            href="#"
+          >
+            <i class="bi bi-journal-text"></i
+            ><span>Transportation Logistics System</span
+            ><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul
+            id="forms-nav"
+            class="nav-content collapse"
+            data-bs-parent="#sidebar-nav"
+          >
+            <li>
+              <a href="transportation_planner">
+                <i class="bi bi-circle"></i><span>Transportation Planner</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <!-- End Forms Nav -->
+      </ul>
+    </aside>
+    <!-- End Sidebar-->
+
+    <!-- start of main -->
+    <main id="main" class="main">
+      <div class="pagetitle">
+        <h1>Warehouse</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <!-- <li class="breadcrumb-item"><a href="/warehouse_config"></li> -->
+            <li class="breadcrumb-item active">Update Transportation Equipment</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
+
+      <section class="section dashboard">
+        <!-- <div class="container"> -->
+        <div class="row">
+          <!-- Action buttons -->
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="modal" id="verticalycentered" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Update Transportation Equipment</h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      {% for e in equipment %}
+                      <form id="updateTransportForm">
+                        <label for="equipmentNumber" class="form-label"
+                          >Equipment Number:</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="equipmentNumber"
+                          name="equipment_number"
+                          value="{{ e.equipment_number}}"
+                          required
+                        />
+
+                        <div class="col-md-4">
+                          <label for="equipmentType" class="form-label"
+                            >Equipment Type</label
+                          >
+                          <select
+                            id="equipmentType"
+                            class="form-select"
+                            name="equipment_type"
+                            value="{{ e.equipment_type}}"
+                            required
+                          >
+                            <option selected>Choose</option>
+                            <option>Lorry</option>
+                            <option>Tempo</option>
+                            <option>Truck</option>
+                          </select>
+                        </div>
+                        <label for="equipmentlicensenumber" class="form-label"
+                          >Equipment License Number:</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="equipmentlicensenumber"
+                          name ="equipment_license_number"
+                          value="{{ e.equipment_license_number}}"
+                          required
+                        />
+                        <label for="driverName" class="form-label"
+                          >Driver Name:</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="driverName"
+                          name="driver_name"
+                          value="{{ e.driver_name}}"
+                          required
+                        />
+                        <label for="driverlicensenumber" class="form-label"
+                          >Driver License Number:</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="driverlicensenumber"
+                          name="driver_license_number"
+                          value="{{ e.driver_license_number}}"
+                          required
+                        />
+
+                        <div class="form-group">
+                          <label for="equipmentdescription"
+                            >Equipment Capacity:</label
+                          >
+
+                          <textarea
+                            class="form-control"
+                            id="equipmentdescription"
+                            name="equipment_description"
+                            value="{{ e.equipment_description}}"
+                            rows="3"
+                          ></textarea>
+                        </div>
+                      </form>
+                      {% endfor %}
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-danger"
+                        id="closeBtnn"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-success"
+                        id="saveBtn"
+                      >
+                        Save changes
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- End Vertically centered Modal-->
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- End #main -->
+
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+
+    <!-- Vendor JS Files -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const modal = new bootstrap.Modal(
+          document.getElementById("verticalycentered")
+        );
+        modal.show();
+
+        const saveBtn = document.getElementById("saveBtn");
+        saveBtn.addEventListener("click", async function () {
+          const formData = new FormData(
+            document.getElementById("updateTransportForm")
+          );
+          try {
+            const response = await fetch("/save_transport", {
+              method: "PUT",
+              body: formData,
+            });
+            if (response.ok) {
+              const result = await response.json();
+              alert(result.message);
+              modal.hide(); // Close modal after saving
+              window.location.href = "/trans_equip_config"; // Redirect to desired page
+            } else {
+              throw new Error("Network response was not ok.");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred. Please try again.");
+          }
+        });
+
+        const closeBtn = document.querySelector('[data-bs-dismiss="modal"]');
+        closeBtn.addEventListener("click", function () {
+          window.location.href = "/trans_equip_config"; // Redirect to desired page on modal close/cancel
+        });
+
+        const cancelBtn = document.getElementById("closeBtnn"); // Using the close button as cancel
+        cancelBtn.addEventListener("click", function () {
+          window.location.href = "/trans_equip_config"; // Redirect to desired page on modal close/cancel
+        });
+      });
+    </script>
+
+    <script src="../static/assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="../static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="../static/assets/vendor/echarts/echarts.min.js"></script>
+    <script src="../static/assets/vendor/quill/quill.min.js"></script>
+    <script src="../static/assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="../static/assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="../static/assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="../static/assets/js/main.js"></script>
+  </body>
+</html>

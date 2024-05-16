@@ -4,6 +4,7 @@ import chardet
 import csv 
 import numpy as np
 import requests
+
 with open(r'C:\Users\Haresh\Projects\RouteXpert\models\village_name.csv', 'rb') as f:
     result = chardet.detect(f.read())
 

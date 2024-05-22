@@ -1289,13 +1289,24 @@ async def driver_login(request: Request):
     return templates.TemplateResponse("driver_login.html", {"request": request})
 
 
+
 @app.post("/validate_driver")
 async def validate_driver(
     driver_name: str = Form(...),
     driver_license_number: str = Form(...),
+    db: Session = Depends(get_db)
 ):
+    driver = db.query(TransportationEquipment).filter(
+        TransportationEquipment.driver_license_number == driver_license_number
+    ).first()
+
+    print(driver.driver_name)
+
+    if not driver:
+        return {"message": "User not found contact the admin :( "}
     
-    return {"message":"Login successful"}
+    return {"message": "Login successful"}
+
 
 
 

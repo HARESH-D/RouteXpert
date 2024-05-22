@@ -1284,7 +1284,9 @@ async def transportation_algorithm(request_data: TransportRequest, db: Session =
 
 
 
-
+@app.get("/driver_login/", response_class=HTMLResponse)
+async def driver_login(request: Request):
+    return templates.TemplateResponse("driver_login.html", {"request": request})
 
 
 

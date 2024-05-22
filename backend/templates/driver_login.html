@@ -57,15 +57,12 @@
                     <p class="text-center small">Enter your Name and License Number to login</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate>
+                  <form class="row g-3 needs-validation" id="driver_login">
 
                     <div class="col-12">
-                      <label for="yourUsername" class="form-label">Name</label>
-                      <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">@</span>
+                        <label for="yourUsername" class="form-label">Name</label>
                         <input type="text" name="username" class="form-control" id="yourUsername" required>
                         <div class="invalid-feedback">Please enter your name.</div>
-                      </div>
                     </div>
 
                     <div class="col-12">
@@ -83,22 +80,10 @@
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Login</button>
                     </div>
-                    <div class="col-12">
-                      <p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>
-                    </div>
                   </form>
 
                 </div>
               </div>
-
-              <div class="credits">
-                <!-- All the links in the footer should remain intact. -->
-                <!-- You can delete the links only if you purchased the pro version. -->
-                <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-              </div>
-
             </div>
           </div>
         </div>
@@ -111,6 +96,39 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const modal = new bootstrap.Modal(
+        document.getElementById("verticalycentered")
+      );
+      modal.show();
+
+      const saveBtn = document.getElementById("submit");
+      saveBtn.addEventListener("click", async function () {
+        const formData = new FormData(
+          document.getElementById("driver_login")
+        );
+        try {
+          const response = await fetch("/validate_driver", {
+            method: "POST",
+            body: formData,
+          });
+          if (response.ok) {
+            const result = await response.json();
+            alert(result.message);
+            modal.hide(); // Close modal after saving
+            window.location.href = "/driver_route"; // Redirect to desired page
+          } else {
+            throw new Error("Network response was not ok.");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("An error occurred. Please try again.");
+        }
+      });
+    });
+  </script>
+
   <script src="../static/assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="../static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="../static/assets/vendor/chart.js/chart.umd.js"></script>

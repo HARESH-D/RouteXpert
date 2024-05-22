@@ -1289,4 +1289,13 @@ async def driver_login(request: Request):
     return templates.TemplateResponse("driver_login.html", {"request": request})
 
 
+@app.post("/validate_driver")
+async def validate_driver(
+    driver_name: str = Form(...),
+    driver_license_number: str = Form(...),
+):
+    
+    return {"message":"Login successful"}
+
+
 

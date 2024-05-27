@@ -24,7 +24,7 @@ import plotly.graph_objects as go
 from itertools import chain
 import openpyxl
 
-BingMapsKey="AtS2Fs-Sm3fm-RPtqb9wDU5VB5cGImY_qIQXbd_Y-cojdSh_RCUDWRj8beBZRm-l"
+BingMapsKey="AkF8emvjBdkTzzY36e9JdZHS8dL2dNFe6fj4b0IoSwFLl151NADCfEHywdXuhrTW"
 
 # from .sql_app.model import Warehouse
 
@@ -1296,16 +1296,47 @@ async def validate_driver(
     driver_license_number: str = Form(...),
     db: Session = Depends(get_db)
 ):
-    driver = db.query(TransportationEquipment).filter(
-        TransportationEquipment.driver_license_number == driver_license_number
-    ).first()
-
-    print(driver.driver_name)
-
-    if not driver:
-        return {"message": "User not found contact the admin :( "}
     
-    return {"message": "Login successful"}
+    routes = []
+    
+    ls_driver = db.query(TransportationEquipment.driver_name)
+    ls_driver_name = list(ls_driver)
+
+    ls_license = list(db.query(TransportationEquipment.driver_license_number))
+    print(ls_license)
+
+    driver_routes = list(db.query(Driver.route).first())
+    print(driver_routes)
+
+    driver_name_db = list(db.query(Driver.driver_name).first())
+    print(driver_name_db)
+
+
+    for i in range(len(ls_driver_name)):
+        if ls_driver_name[i][0] == driver_name and ls_license[i][0] == driver_license_number:
+            return {"message": "Login successful","routes": routes }
+            break
+    else:
+        return {"message": "User not found contact the admin :( "}
+
+
+
+
+    
+
+    # print(driver.driver_name)
+    # routes = db.query(Driver.driver_name).filter(
+    #     Driver.driver_name == driver.driver_name
+    # ).first()
+
+
+    # print(routes.driver_name)
+
+   
+
+    
+    
+    
 
 
 

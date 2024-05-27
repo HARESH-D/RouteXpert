@@ -123,8 +123,12 @@
           if (response.ok) {
             const result = await response.json();
             alert(result.message);
-            window.location.href = "/driver_route"; // Redirect to desired page
-          } else {
+            if ('routes' in result) {
+                  routes = result.routes;
+                  console.log("Routes:", routes);
+                  window.location.href = "/driver_route"; // Redirect to desired page
+          }} 
+          else {
             throw new Error("Network response was not ok.");
           }
         } catch (error) {

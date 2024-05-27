@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <style>
+         html, body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+        }
+
+        .directionsItinerary {
+            width: 25%;
+            float: left;
+            position: relative;
+            right: 0;
+            padding-left: 50px;
+            background-color: rgb(255, 255, 255); /* Just for visualization */
+        }
+
+        #myMap {
+            width: 80%;
+            height: 100%;
+            float: right;
+            position: relative;
+            left: 0;
+            background-color: lightblue; /* Just for visualization */
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="myMap"></div>
+    <div id='directionsItinerary'></div> 
+
+
+
+    <script type='text/javascript'>
+        var map;
+        var directionsManager;
+        var routes;
+    
+        function GetMap() {
+            map = new Microsoft.Maps.Map('#myMap', {});
+    
+            // Load the directions module.
+            Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+                // Create an instance of the directions manager.
+                directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+    
+                // Convert the string into a JSON array
+                routes = JSON.parse('{{ route | tojson }}');
+                console.log("Routes:", routes, routes.length);
+    
+                for (let i = 0; i < routes.length; i++) {
+                    const coordinates = routes[i];
+                    console.log(coordinates);
+                    var waypoint = new Microsoft.Maps.Directions.Waypoint({ 
+                        address: `${i + 1}`, 
+                        location: new Microsoft.Maps.Location(coordinates[0], coordinates[1]) 
+                    });
+                    console.log("done");
+                    directionsManager.addWaypoint(waypoint);
+                    console.log(`  Coordinate ${i + 1}: (${coordinates[0]}, ${coordinates[1]})`);  
+                }
+                
+                directionsManager.setRenderOptions({ itineraryContainer: '#directionsItinerary' });
+    
+                // Calculate directions.
+                directionsManager.calculateDirections();
+
+            });
+            Microsoft.Maps.loadModule('Microsoft.Maps.Traffic', function () {
+            //Create an instance of the traffic manager and bind to map.
+            trafficManager = new Microsoft.Maps.Traffic.TrafficManager(map);
+
+            //Display the traffic data.
+            trafficManager.show();
+        });
+        }
+    </script>
+    
+    <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AkF8emvjBdkTzzY36e9JdZHS8dL2dNFe6fj4b0IoSwFLl151NADCfEHywdXuhrTW' async defer></script>
+
+    <ul id="routesList"></ul>
+
+</body>
+</html>

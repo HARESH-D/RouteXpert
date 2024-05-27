@@ -1236,8 +1236,10 @@ async def transportation_algorithm(request_data: TransportRequest, db: Session =
     print(driver_list)
     print("\n\n------------------------------")
 
-    new_drivers = Driver(**new_driver)
-    db.add(new_drivers)
+    for driver_dict in driver_list:
+        new_driver = Driver(**driver_dict)
+        db.add(new_driver)
+
     db.commit()
 
 
@@ -1302,18 +1304,33 @@ async def validate_driver(
     ls_driver = db.query(TransportationEquipment.driver_name)
     ls_driver_name = list(ls_driver)
 
+    print(ls_driver_name)
+
     ls_license = list(db.query(TransportationEquipment.driver_license_number))
     print(ls_license)
 
-    driver_routes = list(db.query(Driver.route).first())
+    driver_routes = list(db.query(Driver.route))
     print(driver_routes)
+    print(type(driver_routes))
+
+
+    driver_routes_name = list(db.query(Driver.driver_name))
+
+
+    for i in range(len(driver_routes)-1,-1,-1):
+        print(i,"-",":",driver_routes[i][0],"--->",driver_routes_name[i][0])
+        if ((driver_routes_name[i][0]).lower() == driver_name.lower()):
+            routes = driver_routes[i][0]
+            break
+
+        print("-----------------------------------------")
 
     driver_name_db = list(db.query(Driver.driver_name).first())
     print(driver_name_db)
 
-
+    print("Routes:",routes,"Driver Name:",driver_name)
     for i in range(len(ls_driver_name)):
-        if ls_driver_name[i][0] == driver_name and ls_license[i][0] == driver_license_number:
+        if (ls_driver_name[i][0]).lower() == driver_name.lower() and ls_license[i][0] == driver_license_number:
             return {"message": "Login successful","routes": routes }
             break
     else:
@@ -1334,7 +1351,10 @@ async def validate_driver(
 
    
 
-    
+@app.get("/driver_route/{route}", response_class=HTMLResponse)
+async def update_transport_equipment(request: Request, route: str):  
+    route_list = json.loads(route)  
+    return templates.TemplateResponse("driver_route.html", {"request": request, "route":route_list})
     
     
 

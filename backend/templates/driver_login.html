@@ -126,7 +126,7 @@
             if ('routes' in result) {
                   routes = result.routes;
                   console.log("Routes:", routes);
-                  window.location.href = "/driver_route"; // Redirect to desired page
+                  window.location.href = `/driver_route/${routes}`; // Redirect to desired page
           }} 
           else {
             throw new Error("Network response was not ok.");

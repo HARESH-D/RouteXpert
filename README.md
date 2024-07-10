@@ -1,70 +1,56 @@
-# Getting Started with Create React App
+![image](https://github.com/HARESH-D/RouteXpert/assets/73981964/8d35d619-312a-461f-aa47-4f3ce63fcd64)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+![image](https://github.com/HARESH-D/RouteXpert/assets/73981964/f7dae871-4c4f-4be0-93b1-9a7ca8e28271)
 
-In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![image](https://github.com/HARESH-D/RouteXpert/assets/73981964/a38d2326-38b5-416d-9b11-e109af4d397a)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![image](https://github.com/HARESH-D/RouteXpert/assets/73981964/bc7ea04a-6050-4f2f-813d-67e883a93496)
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![image](https://github.com/HARESH-D/RouteXpert/assets/73981964/f113da14-e02a-4e85-8e88-e5295c5b05f1)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+![image](https://github.com/HARESH-D/RouteXpert/assets/73981964/af859494-a671-4a24-b906-0596a635faef)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+![image](https://github.com/HARESH-D/RouteXpert/assets/73981964/7d988e69-568f-4eba-a21c-0f8d78f107cf)
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![image](https://github.com/HARESH-D/RouteXpert/assets/73981964/0c64147c-3fca-4d50-bbe8-15b2836c4273)
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+![image](https://github.com/HARESH-D/RouteXpert/assets/73981964/622d5266-d485-4f2e-b6a3-a854a64148d8)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+![image](https://github.com/HARESH-D/RouteXpert/assets/73981964/ffc8a535-09e0-4a7e-84d4-425730cf343a)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+![image](https://github.com/HARESH-D/RouteXpert/assets/73981964/04366f49-ca09-45ae-9bcd-ee45af9cba22)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![image](https://github.com/HARESH-D/RouteXpert/assets/73981964/3e1a3c2b-6c73-4936-b57d-bdf3552022c4)
+
+
+
+
+
+
+
+
+
+
+
+
